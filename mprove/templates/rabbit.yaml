@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.rabbit.name }}
+  labels:
+    app: {{ .Values.rabbit.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.rabbit.name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.rabbit.name }}
+    spec:
+      containers:
+      - name: {{ .Values.rabbit.name }}
+        image: {{ .Values.rabbit.image }}:{{ .Values.rabbit.tag }}
+        envFrom:
+        - secretRef:
+            name: {{ .Values.rabbit.envsSecretName }}          
+        ports:
+        - containerPort: 5672
+          name: rabbit-main
+        # - containerPort: 15672
+        #   name: rabbit-ui
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.rabbit.name }}
+  labels:
+    app: {{ .Values.rabbit.name }}
+spec:
+  selector:
+    app: {{ .Values.rabbit.name }}
+  type: NodePort
+  ports:
+  - port: 5672
+    targetPort: 5672
+    name: rabbit-main
+  # - port: 15672
+  #   targetPort: 15672
+  #   name: rabbit-ui

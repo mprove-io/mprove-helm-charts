@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.disk.name }}
+  labels:
+    app: {{ .Values.disk.name }}
+spec:
+  serviceName: {{ .Values.disk.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.disk.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.disk.name }}
+    spec:
+      containers:
+      - name: {{ .Values.disk.name }}
+        image: {{ .Values.disk.image }}:{{ .Chart.AppVersion }}
+        command: ['yarn']
+        args: ['serve:disk']        
+        envFrom:
+        - secretRef:
+            name: {{ .Values.disk.envsSecretName }}    
+        volumeMounts:
+        - name: disk-persistent-storage
+          mountPath: /root/mprove_data/organizations
+      volumes:
+      - name: disk-persistent-storage
+        persistentVolumeClaim:
+          claimName: disk-pvc
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: disk-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+

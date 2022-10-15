@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  {{ .Values.backend.name }}
+  labels:
+    app:  {{ .Values.backend.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  {{ .Values.backend.name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app:  {{ .Values.backend.name }}
+    spec:
+      containers:
+      - name: {{ .Values.backend.name }}
+        image: {{ .Values.backend.image }}:{{ .Chart.AppVersion }}
+        command: ['yarn']
+        args: ['serve:backend']
+        envFrom:
+        - secretRef:
+            name: {{ .Values.backend.envsSecretName }}    
+        ports:
+        - containerPort: 3000
+          name: backend
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.backend.name }}
+  labels:
+    app: {{ .Values.backend.name }}
+spec:
+  selector:
+    app: {{ .Values.backend.name }}
+  type: NodePort
+  ports:
+  - port: 3000
+    targetPort: 3000
+    name: {{ .Values.backend.name }} 

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.front.name }}
+  name: {{ .Values.front.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.front.name }}
+  strategy:
+    type: Recreate      
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.front.name }}
+    spec:
+      containers:
+      - name: {{ .Values.front.name }}
+        image: {{ .Values.front.image }}:{{ .Chart.AppVersion }}
+        ports:
+        - containerPort: 80
+          name: front
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Values.front.name }}
+  name: {{ .Values.front.name }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.front.name }}
+  ports:
+  - name: front
+    port: 80
+    targetPort: 80

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backendScheduler.name }}
+  labels:
+    app: {{ .Values.backendScheduler.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.backendScheduler.name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backendScheduler.name }}
+    spec:
+      containers:
+      - name: {{ .Values.backendScheduler.name }}
+        image: {{ .Values.backendScheduler.image }}:{{ .Chart.AppVersion }}
+        command: ['yarn']
+        args: ['serve:backend']        
+        envFrom:
+        - secretRef:
+            name: {{ .Values.backendScheduler.envsSecretName }}    
+        volumeMounts:
+        - name: scheduler-secrets-volume
+          mountPath: /usr/src/app/secrets
+      volumes:
+      - name: scheduler-secrets-volume
+        secret:
+          secretName: {{ .Values.backendScheduler.bigquerySecretName }}
+          items:
+          - key: content
+            path: bigquery-test.json
+

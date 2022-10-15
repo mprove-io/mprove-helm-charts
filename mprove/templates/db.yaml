@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.db.name }}
+  labels:
+    app: {{ .Values.db.name }}
+spec:
+  serviceName: {{ .Values.db.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.db.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.db.name }}
+    spec:
+      containers:
+      - name: {{ .Values.db.name }}
+        image: {{ .Values.db.image }}:{{ .Values.db.tag }}
+        envFrom:
+        - secretRef:
+            name: {{ .Values.db.envsSecretName }}          
+        args:
+          [
+            '--default-authentication-plugin=mysql_native_password',
+            '--max_allowed_packet=128M',
+            '--innodb-buffer-pool-size=1G'
+          ]        
+        ports:
+        - containerPort: 3306
+          name: db
+        volumeMounts:
+        - name: db-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: db-persistent-storage
+        persistentVolumeClaim:
+          claimName: db-pvc
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.db.name }}
+  labels:
+    app: {{ .Values.db.name }}
+spec:
+  selector:
+    app: {{ .Values.db.name }}
+  type: NodePort
+  ports:
+  - port: 3306
+    targetPort: 3306
+    name: db
