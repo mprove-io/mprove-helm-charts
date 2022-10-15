@@ -1,6 +1,7 @@
 db:
   image: mysql
   tag: 8.0.29
+  name: db
   envsSecretName: db-envs
   createEnvsSecret: true
   envs:
@@ -11,6 +12,7 @@ db:
 rabbit:
   image: rabbitmq
   tag: 3.10.6-management
+  name: rabbit
   envsSecretName: rabbit-envs
   createEnvsSecret: true
   envs:
@@ -20,6 +22,7 @@ rabbit:
 
 dwhPostgres:
   image: ghcr.io/mprove-io/mprove-dwh-postgres
+  name: dwh-postgres
   envsSecretName: dwh-postgres-envs
   createEnvsSecret: true
   envs:
@@ -28,6 +31,7 @@ dwhPostgres:
 
 dwhClickhouse:
   image: ghcr.io/mprove-io/mprove-dwh-clickhouse
+  name: dwh-clickhouse
   envsSecretName: dwh-clickhouse-envs
   createEnvsSecret: true
   envs:
@@ -37,6 +41,7 @@ dwhClickhouse:
 
 front:
   image: ghcr.io/mprove-io/mprove-front
+  name: front
 
 disk:
   image: ghcr.io/mprove-io/mprove-disk
@@ -93,7 +98,7 @@ backendScheduler:
   createEnvsSecret: true
   createBigquerySecret: true
   bigqueryFirstProjectCredentials: |
-    {}
+    '{}'
   envs:
     NODE_ENV: production
     BACKEND_ENV: PROD
