@@ -98,7 +98,7 @@ backendScheduler:
   createEnvsSecret: true
   createBigquerySecret: true
   bigqueryFirstProjectCredentials: |
-    '{}'
+    {}
   envs:
     NODE_ENV: production
     BACKEND_ENV: PROD
