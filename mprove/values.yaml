@@ -1,9 +1,11 @@
 ingress:
   enabled: false
+  httpsRedirect: false
   host: unk.example.com
+  acmeEmail: unk@example.com
   certProdSecretName: cert-prod-secret
   certStagingSecretName: cert-staging-secret
-  acmeEmail: unk@example.com
+
 db:
   image: mysql
   tag: 8.0.29

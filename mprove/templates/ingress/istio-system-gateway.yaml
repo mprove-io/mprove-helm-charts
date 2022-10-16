@@ -15,7 +15,7 @@ spec:
       number: 80
       protocol: HTTP2
     tls:
-      httpsRedirect: true
+      httpsRedirect: {{ .Values.ingress.httpsRedirect }}
   - hosts:
     - {{ .Values.ingress.host }}
     port:
