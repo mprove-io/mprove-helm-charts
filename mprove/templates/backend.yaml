@@ -21,9 +21,12 @@ spec:
         image: {{ .Values.backend.image }}:{{ .Chart.AppVersion }}
         command: ['yarn']
         args: ['serve:backend']
+        env:
+        - name: BACKEND_IS_SCHEDULER
+          value: 'FALSE'
         envFrom:
         - secretRef:
-            name: {{ .Values.backend.envsSecretName }}    
+            name: {{ .Values.backendCommon.envsSecretName }}    
         ports:
         - containerPort: 3000
           name: backend

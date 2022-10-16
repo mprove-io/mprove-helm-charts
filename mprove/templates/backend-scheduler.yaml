@@ -20,17 +20,20 @@ spec:
       - name: {{ .Values.backendScheduler.name }}
         image: {{ .Values.backendScheduler.image }}:{{ .Chart.AppVersion }}
         command: ['yarn']
-        args: ['serve:backend']        
+        args: ['serve:backend']
+        env:
+        - name: BACKEND_IS_SCHEDULER
+          value: 'TRUE'           
         envFrom:
         - secretRef:
-            name: {{ .Values.backendScheduler.envsSecretName }}    
+            name: {{ .Values.backendCommon.envsSecretName }}    
         volumeMounts:
         - name: scheduler-secrets-volume
           mountPath: /usr/src/app/secrets
       volumes:
       - name: scheduler-secrets-volume
         secret:
-          secretName: {{ .Values.backendScheduler.bigquerySecretName }}
+          secretName: {{ .Values.backendCommon.bigquerySecretName }}
           items:
           - key: content
             path: bigquery-test.json

@@ -98,11 +98,17 @@ blockmlSingle:
     BLOCKML_LOG_ON_SENDER: 'FALSE'
     BLOCKML_LOG_ON_RESPONSER: 'TRUE'
 
+backend:
+  image: ghcr.io/mprove-io/mprove-backend
+  name: backend
+
 backendScheduler:
   image: ghcr.io/mprove-io/mprove-backend 
   name: backend-scheduler
-  envsSecretName: backend-scheduler-envs  
-  bigquerySecretName: backend-scheduler-bigquery
+
+backendCommon:  
+  envsSecretName: backend-common-envs  
+  bigquerySecretName: backend-common-bigquery
   createEnvsSecret: true
   createBigquerySecret: true
   bigqueryFirstProjectCredentials: |
@@ -121,7 +127,6 @@ backendScheduler:
     BACKEND_RABBIT_HOST: rabbit
     BACKEND_RABBIT_PORT: 5672
     BACKEND_BIGQUERY_PATH: secrets/bigquery-test.json
-    BACKEND_IS_SCHEDULER: 'TRUE'
     BACKEND_JWT_SECRET: jwtsecret
     BACKEND_SPECIAL_KEY: specialkey
     BACKEND_ALLOW_TEST_ROUTES: 'FALSE'
@@ -153,53 +158,3 @@ backendScheduler:
     BACKEND_LOG_ON_SENDER: 'FALSE'
     BACKEND_LOG_ON_RESPONSER: 'TRUE'
 
-backend:
-  image: ghcr.io/mprove-io/mprove-backend
-  name: backend
-  envsSecretName: backend-envs   
-  createEnvsSecret: true
-  envs:
-    NODE_ENV: production
-    BACKEND_ENV: PROD
-    BACKEND_MYSQL_DATABASE: mprovedb
-    BACKEND_MYSQL_PASSWORD: mysqlpass
-    BACKEND_MYSQL_HOST: db
-    BACKEND_MYSQL_PORT: 3306
-    BACKEND_MYSQL_USERNAME: root
-    BACKEND_RABBIT_PROTOCOL: amqp
-    BACKEND_RABBIT_USER: rabbituser
-    BACKEND_RABBIT_PASS: rabbitpass
-    BACKEND_RABBIT_HOST: rabbit
-    BACKEND_RABBIT_PORT: 5672
-    BACKEND_BIGQUERY_PATH: secrets/bigquery-test.json
-    BACKEND_IS_SCHEDULER: 'FALSE'
-    BACKEND_JWT_SECRET: jwtsecret
-    BACKEND_SPECIAL_KEY: specialkey
-    BACKEND_ALLOW_TEST_ROUTES: 'FALSE'
-    BACKEND_FIRST_USER_EMAIL: user@example.com
-    BACKEND_FIRST_USER_PASSWORD: userpass
-    BACKEND_FIRST_ORG_ID: AWNCAHWLFQTQJYCH3ZSE
-    BACKEND_FIRST_PROJECT_ID: DXYE72ODCP5LWPWH2EXQ
-    BACKEND_FIRST_PROJECT_DWH_POSTGRES_PASSWORD: postgrespass
-    BACKEND_FIRST_PROJECT_DWH_CLICKHOUSE_PASSWORD: clickhousepass
-    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_ACCOUNT: unk
-    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_WAREHOUSE: unk
-    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_USERNAME: unk
-    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_PASSWORD: unk
-    BACKEND_REGISTER_ONLY_INVITED_USERS: 'TRUE'
-    BACKEND_HOST_URL: unk
-    BACKEND_SEND_EMAIL_FROM_NAME: Example
-    BACKEND_SEND_EMAIL_FROM_ADDRESS: no-reply@example.com
-    BACKEND_EMAIL_TRANSPORT: SMTP
-    BACKEND_MAILGUN_ACTIVE_API_KEY: unk
-    BACKEND_MAILGUN_DOMAIN: unk
-    BACKEND_SMTP_HOST: unk
-    BACKEND_SMTP_PORT: 465
-    BACKEND_SMTP_SECURE: 'TRUE'
-    BACKEND_SMTP_AUTH_USER: unk
-    BACKEND_SMTP_AUTH_PASSWORD: unk
-    BACKEND_LOG_IS_COLOR: 'TRUE'
-    BACKEND_LOG_RESPONSE_ERROR: 'FALSE'
-    BACKEND_LOG_RESPONSE_OK: 'FALSE'
-    BACKEND_LOG_ON_SENDER: 'FALSE'
-    BACKEND_LOG_ON_RESPONSER: 'TRUE'
