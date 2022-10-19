@@ -2,6 +2,8 @@
 nogit/
 values/
 
+my-values.yaml
+
 # env
 *.env
 .envrc

@@ -1,0 +1,62 @@
+ingress:
+  enabled: true
+  host: real-host.example.com
+  acmeEmail: real-email@example.com
+
+db:
+  envs:
+    MYSQL_ROOT_PASSWORD: replaceWith32CharString
+
+rabbit:
+  envs:
+    RABBITMQ_DEFAULT_PASS: replaceWith32CharString
+    RABBITMQ_ERLANG_COOKIE: replaceWith32CharString
+
+dwhPostgres:
+  envs:
+    POSTGRES_PASSWORD: replaceWith32CharString
+
+dwhClickhouse:
+  envs:
+    CLICKHOUSE_PASSWORD: replaceWith32CharString
+
+disk:
+  envs:
+    DISK_RABBIT_PASS: replaceWith32CharString
+
+blockmlMainWorker:
+  replicas: 1
+
+blockmlCommon:
+  envs:
+    BLOCKML_RABBIT_PASS: replaceWith32CharString
+
+backend:
+  replicas: 1
+
+backendCommon:
+  bigqueryFirstProjectCredentials: |
+    {
+      "type": "service_account",
+      ... real BigQuery project service account JSON credentials ...
+    }
+  envs:
+    BACKEND_MYSQL_PASSWORD: replaceWith32CharString
+    BACKEND_RABBIT_PASS: replaceWith32CharString
+    BACKEND_JWT_SECRET: replaceWith32CharString
+    BACKEND_SPECIAL_KEY: replaceWith32CharString
+    BACKEND_FIRST_USER_EMAIL: real-email@example.com
+    BACKEND_FIRST_USER_PASSWORD: password to login (min 6 characters)
+    BACKEND_FIRST_PROJECT_DWH_POSTGRES_PASSWORD: replaceWith32CharString
+    BACKEND_FIRST_PROJECT_DWH_CLICKHOUSE_PASSWORD: replaceWith32CharString
+    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_ACCOUNT: realSnowflakeAccount
+    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_WAREHOUSE: realSnowflakeWarehouse
+    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_USERNAME: realSnowflakeUsername
+    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_PASSWORD: realSnowflakePassword
+    BACKEND_REGISTER_ONLY_INVITED_USERS: 'FALSE'
+    BACKEND_HOST_URL: https://real-host.example.com
+    BACKEND_SEND_EMAIL_FROM_NAME: Mprove Example
+    BACKEND_SEND_EMAIL_FROM_ADDRESS: no-reply@example.com
+    BACKEND_SMTP_HOST: real-smtp.example.com
+    BACKEND_SMTP_AUTH_USER: realSmtpUser
+    BACKEND_SMTP_AUTH_PASSWORD: realSmtpPassword
