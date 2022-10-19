@@ -17,8 +17,14 @@ spec:
       containers:
       - name: {{ .Values.disk.name }}
         image: {{ .Values.disk.image }}:{{ .Chart.AppVersion }}
-        command: ['yarn']
-        args: ['serve:disk']        
+        command: 
+        - sh
+        - '-c'
+        - >
+          until wget http://$DISK_RABBIT_USER:$DISK_RABBIT_PASS@$DISK_RABBIT_HOST:15672/api/aliveness-test/%2F > /dev/null 2>&1; 
+          do echo waiting for rabbit ...; sleep 10; done && 
+          echo rabbit is ready &&        
+          node dist/apps/disk/main.js        
         envFrom:
         - secretRef:
             name: {{ .Values.disk.envsSecretName }}    
@@ -40,5 +46,5 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: {{ .Values.disk.storage }}
 

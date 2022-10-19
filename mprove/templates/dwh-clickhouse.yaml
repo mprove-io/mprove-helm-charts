@@ -48,7 +48,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: {{ .Values.dwhClickhouse.storage }}
 
 ---
 apiVersion: v1
@@ -60,7 +60,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: {{ .Values.dwhClickhouse.storageLogs }}
 
 ---
 apiVersion: v1

@@ -25,8 +25,8 @@ spec:
         ports:
         - containerPort: 5672
           name: rabbit-main
-        # - containerPort: 15672
-        #   name: rabbit-ui
+        - containerPort: 15672
+          name: rabbit-ui
 
 ---
 apiVersion: v1
@@ -43,6 +43,6 @@ spec:
   - port: 5672
     targetPort: 5672
     name: rabbit-main
-  # - port: 15672
-  #   targetPort: 15672
-  #   name: rabbit-ui
+  - port: 15672
+    targetPort: 15672
+    name: rabbit-ui
