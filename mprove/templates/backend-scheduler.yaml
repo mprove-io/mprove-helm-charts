@@ -59,8 +59,12 @@ spec:
       volumes:
       - name: scheduler-secrets-volume
         secret:
-          secretName: {{ .Values.backendCommon.bigquerySecretName }}
+          secretName: {{ .Values.backendCommon.secretFilesSecretName }}
           items:
-          - key: content
+          - key: contentBigquery
             path: bigquery-test.json
+          - key: contentRemotePrivateKey
+            path: first-project-remote-private-key.pem
+          - key: contentRemotePublicKey
+            path: first-project-remote-public-key.pem
 

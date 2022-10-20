@@ -35,7 +35,7 @@ backend:
   replicas: 1
 
 backendCommon:
-  bigqueryFirstProjectCredentials: |
+  firstProjectBigqueryCredentials: |
     {
       "type": "service_account",
       ... real BigQuery project service account JSON credentials ...
