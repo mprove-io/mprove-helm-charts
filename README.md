@@ -1,17 +1,17 @@
 # mprove-helm-charts
 
-## Kubernetes cluster
+<!-- ## Kubernetes cluster -->
 
-## DNS record
+<!-- ## DNS record -->
 
-## Helm
+<!-- ## Helm -->
 
-## My values
+<!-- ## My values -->
 
 ## Install
 
 ```
-helm install -f my-values.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.18 -n mprove
+helm install -f my-values.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.19 -n mprove
 ```
 
 ## Upgrade
