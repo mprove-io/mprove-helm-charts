@@ -32,7 +32,9 @@ helm uninstall mprove -n mprove
 | ---------------------------------------------------------------------- | -------------------------------------------- | ----------- |
 | **ingress:**                                                           |                                              |             |
 | &nbsp;&nbsp;enabled:                                                   | false                                        |             |
+<tr></tr>
 | &nbsp;&nbsp;httpsRedirect:                                             | false                                        |             |
+<tr></tr>
 | &nbsp;&nbsp;host:                                                      | unk.example.com                              |             |
 | &nbsp;&nbsp;acmeEmail:                                                 | unk@example.com                              |             |
 | &nbsp;&nbsp;certProdSecretName:                                        | cert-prod-secret                             |             |
