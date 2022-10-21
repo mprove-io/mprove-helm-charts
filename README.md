@@ -10,15 +10,21 @@
 
 ## Install
 
+```
 helm install -f my-values.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.18 -n mprove
+```
 
 ## Upgrade
 
+```
 helm upgrade -f values/v1.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 2.0.0 -n mprove
+```
 
 ## Uninstall
 
+```
 helm uninstall mprove -n mprove
+```
 
 ## Configuration
 
@@ -32,7 +38,7 @@ helm uninstall mprove -n mprove
 | &nbsp;&nbsp;certProdSecretName:              | cert-prod-secret    |             |
 | &nbsp;&nbsp;certStagingSecretName:           | cert-staging-secret |             |
 | db:                                          |                     |             |
-| &nbsp;&nbsp;enabled:                         | false               |             |
+| &nbsp;&nbsp;enabled:                         | true                |             |
 | &nbsp;&nbsp;image:                           | mysql               |             |
 | &nbsp;&nbsp;tag:                             | 8.0.29              |             |
 | &nbsp;&nbsp;name:                            | db                  |             |
