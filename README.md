@@ -31,7 +31,6 @@ helm uninstall mprove -n mprove
 | &nbsp;&nbsp;acmeEmail:                       | unk@example.com     |             |
 | &nbsp;&nbsp;certProdSecretName:              | cert-prod-secret    |             |
 | &nbsp;&nbsp;certStagingSecretName:           | cert-staging-secret |             |
-|                                              |                     |             |
 | db:                                          |                     |             |
 | &nbsp;&nbsp;enabled:                         | false               |             |
 | &nbsp;&nbsp;image:                           | mysql               |             |
