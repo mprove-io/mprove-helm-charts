@@ -37,6 +37,8 @@ helm uninstall mprove -n mprove
 | &nbsp;&nbsp;acmeEmail:                       | unk@example.com     |             |
 | &nbsp;&nbsp;certProdSecretName:              | cert-prod-secret    |             |
 | &nbsp;&nbsp;certStagingSecretName:           | cert-staging-secret |             |
+| kubeSystemNodeSetup:                         |                     |             |
+| &nbsp;&nbsp;enabled:                         | true                |             |
 | db:                                          |                     |             |
 | &nbsp;&nbsp;enabled:                         | true                |             |
 | &nbsp;&nbsp;image:                           | mysql               |             |
@@ -49,3 +51,5 @@ helm uninstall mprove -n mprove
 | &nbsp;&nbsp;&nbsp;&nbsp;MYSQL_ROOT_PASSWORD: | mysqlpass           |             |
 | &nbsp;&nbsp;&nbsp;&nbsp;MYSQL_DATABASE:      | mprovedb            |             |
 | &nbsp;&nbsp;&nbsp;&nbsp;MYSQL_USERNAME:      | root                |             |
+| rabbit:                                      |                     |             |
+| &nbsp;&nbsp;enabled:                         | true                |             |

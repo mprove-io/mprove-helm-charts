@@ -1,3 +1,4 @@
+{{- if .Values.kubeSystemNodeSetup.enabled -}}
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -72,3 +73,4 @@ data:
 
     # check that the new value was applied
     cat /proc/sys/fs/inotify/max_user_watches
+{{- end }}    

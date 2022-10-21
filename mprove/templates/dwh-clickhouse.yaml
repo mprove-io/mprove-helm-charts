@@ -1,3 +1,4 @@
+{{- if .Values.dwhClickhouse.enabled -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -80,3 +81,4 @@ spec:
   # - port: 9000
   #   targetPort: 9000
   #   name: clickhouse-clt
+{{- end }}  

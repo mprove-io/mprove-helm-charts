@@ -6,7 +6,11 @@ ingress:
   certProdSecretName: cert-prod-secret
   certStagingSecretName: cert-staging-secret
 
+kubeSystemNodeSetup:
+  enabled: true
+
 db:
+  enabled: true
   image: mysql
   tag: 8.0.29
   name: db
@@ -19,6 +23,7 @@ db:
     MYSQL_USERNAME: root
 
 rabbit:
+  enabled: true
   image: rabbitmq
   tag: 3.10.6-management
   name: rabbit
@@ -30,6 +35,7 @@ rabbit:
     RABBITMQ_ERLANG_COOKIE: rabbitcookie
 
 dwhPostgres:
+  enabled: true
   image: ghcr.io/mprove-io/mprove-dwh-postgres
   name: dwh-postgres
   storage: 2Gi
@@ -40,6 +46,7 @@ dwhPostgres:
     POSTGRES_PASSWORD: postgrespass
 
 dwhClickhouse:
+  enabled: true
   image: ghcr.io/mprove-io/mprove-dwh-clickhouse
   name: dwh-clickhouse
   storage: 2Gi
