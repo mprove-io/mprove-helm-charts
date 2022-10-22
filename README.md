@@ -1,4 +1,4 @@
-# mprove-helm-charts
+# Mprove Helm Charts
 
 <!-- ## Kubernetes cluster -->
 
