@@ -60,6 +60,7 @@ dwhClickhouse:
 front:
   image: ghcr.io/mprove-io/mprove-front
   name: front
+  replicas: 1
 
 disk:
   image: ghcr.io/mprove-io/mprove-disk

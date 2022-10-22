@@ -5,7 +5,7 @@ metadata:
     app: {{ .Values.front.name }}
   name: {{ .Values.front.name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.front.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.front.name }}

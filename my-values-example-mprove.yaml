@@ -20,6 +20,9 @@ dwhClickhouse:
   envs:
     CLICKHOUSE_PASSWORD: replaceWith32CharString
 
+front:
+  replicas: 1
+
 disk:
   envs:
     DISK_RABBIT_PASS: replaceWith32CharString
