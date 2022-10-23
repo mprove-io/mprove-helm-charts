@@ -24,6 +24,15 @@ curl 'https://raw.githubusercontent.com/mprove-io/mprove-helm-charts/master/valu
 
 Replace the suggested values in the file with your own.
 
+### Custom Ingress
+
+If you are using your own Ingress, make sure HTTP requests are routed between the Front and Backend services using the "/api" prefix. Check [mprove/templates/ingress/route.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/mprove/templates/ingress/route.yaml) for example.
+
+```
+ingress:
+  enabled: false
+```
+
 ### Mprove Istio Ingress
 
 Your DNS should have an A record pointing your `real-host.example.com` to your kubernetes cluster.
@@ -56,15 +65,6 @@ Install Cert Manager to the cluster:
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
 helm install cert-manager jetstack/cert-manager -n cert-manager --create-namespace --set installCRDs=true
-```
-
-### Custom Ingress
-
-If you are using your own Ingress, make sure HTTP requests are routed between the Front and Backend services using the "/api" prefix. Check [mprove/templates/ingress/route.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/mprove/templates/ingress/route.yaml) for example.
-
-```
-ingress:
-  enabled: false
 ```
 
 ## Install / Upgrade / Uninstall / Template
