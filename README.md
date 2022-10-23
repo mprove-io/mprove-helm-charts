@@ -34,6 +34,29 @@ ingress:
   acmeEmail: real-email@example.com
 ```
 
+Install istioctl:
+```
+brew install istioctl 
+```
+
+Install Istio to the cluster:
+```
+istioctl install
+```
+
+Add istio-injection label:
+```
+kubectl label namespace mprove istio-injection=enabled --overwrite
+```
+
+Install Cert Manager to the cluster:
+```
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+
+helm install cert-manager jetstack/cert-manager -n cert-manager --create-namespace --set installCRDs=true
+```
+
 ### Custom Ingress
 
 If you are using your own Ingress, make sure HTTP requests are routed between the Front and Backend services using the "/api" prefix. Check [mprove/templates/ingress/route.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/mprove/templates/ingress/route.yaml) for example.
