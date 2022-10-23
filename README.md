@@ -1,26 +1,22 @@
 # Mprove Helm Charts
 
-<!-- ## Kubernetes cluster -->
+## Prerequisites
+  - Kubernetes cluster
+  - Helm v3.10+
 
-<!-- ## DNS record -->
+## Setup Kubernetes Cluster
 
-<!-- ## Helm -->
+## Ingress
 
-<!-- ## My values -->
-
-## Install
+## Install / Upgrade / Uninstall
 
 ```
 helm install -f my-values.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.19 -n mprove
 ```
 
-## Upgrade
-
 ```
 helm upgrade -f my-values.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 2.0.0 -n mprove
 ```
-
-## Uninstall
 
 ```
 helm uninstall mprove -n mprove
@@ -29,7 +25,9 @@ helm uninstall mprove -n mprove
 ## First Project (demo/p1)
 
 First Project (p1) belongs to the First Org (demo).
+
 First User gets the role **Owner** for the First Org (demo).
+
 First User gets the role **Admin** for the First Project (p1).
 
 First Project is for demonstration purposes only. 
