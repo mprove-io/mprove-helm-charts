@@ -2,22 +2,38 @@
 
 ## Prerequisites
   - Kubernetes cluster
+  - Kubectl
   - Helm v3.10+
 
 ## Setup Kubernetes Cluster
 
+Create **values-mprove.yaml** file to override helm chart default values.
+
+```
+curl '' > values-mprove.yaml
+```
+
+ [abc](https://github.com/mprove-io/mprove-helm-charts/blob/master/values-mprove-example-mprove.yaml)
+
+```
+kubectl create namespace mprove
+```
+
 ### Ingress
 
-### Values
 
-## Install / Upgrade / Uninstall
-
-```
-helm install -f my-values.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.19 -n mprove
-```
+## Template / Install / Upgrade / Uninstall
 
 ```
-helm upgrade -f my-values.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.19 -n mprove
+helm template -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.19 -n mprove
+```
+
+```
+helm install -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.19 -n mprove
+```
+
+```
+helm upgrade -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.19 -n mprove
 ```
 
 ```
