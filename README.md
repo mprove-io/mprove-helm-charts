@@ -17,7 +17,7 @@ helm install -f my-values.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts
 ```
 
 ```
-helm upgrade -f my-values.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 2.0.0 -n mprove
+helm upgrade -f my-values.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.19 -n mprove
 ```
 
 ```
