@@ -7,31 +7,47 @@
 
 ## Setup Kubernetes Cluster
 
-Default [mprove/values.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/mprove/values.yaml) values should be overrided by your custom values.
-
-Values examples:
+Default [mprove/values.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/mprove/values.yaml) values should be overrided by your custom values. Values examples:
 - [values-mprove-example-managed-demo.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/values-mprove-example-managed-demo.yaml)
 - [values-mprove-example-no-demo.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/values-mprove-example-no-demo.yaml)
 - [values-mprove-example-gitclone-demo.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/values-mprove-example-gitclone-demo.yaml)
 
-Create **values-mprove.yaml** file to override helm chart default values.
-
+Create **values-mprove.yaml** file to override helm chart default values:
 ```
 curl 'https://raw.githubusercontent.com/mprove-io/mprove-helm-charts/master/values-mprove-example-managed-demo.yaml' > values-mprove.yaml
 ```
 
+Create **mprove** namespace:
 ```
 kubectl create namespace mprove
 ```
 
-### Ingress
+## Mprove Istio Ingress
+
+Your cluster must be accessible from the Internet.
+
+Your DNS must have an A record pointing your `real-host.example.com` to your kubernetes cluster.
+
+The **values-mprove.yaml** file must have overrides:
+```
+ingress:
+  enabled: true
+  host: real-host.example.com
+  acmeEmail: real-email@example.com
+```
 
 
-## Template / Install / Upgrade / Uninstall
+
+## Custom Ingress
+
+If you are using your own Ingress, make sure HTTP requests are routed between the Front and Backend services using the "/api" prefix. Check [mprove/templates/ingress/route.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/mprove/templates/ingress/route.yaml) for example.
 
 ```
-helm template -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.19 -n mprove
+ingress:
+  enabled: false
 ```
+
+## Install / Upgrade / Uninstall / Template
 
 ```
 helm install -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.19 -n mprove
@@ -43,6 +59,10 @@ helm upgrade -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-ch
 
 ```
 helm uninstall mprove -n mprove
+```
+
+```
+helm template -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.19 -n mprove
 ```
 
 ## First Project (demo/p1)
@@ -86,7 +106,7 @@ dwhClickhouse:
 | ---------------------------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **ingress:**                                                           |                                                | **Kubernetes Ingress (Istio + Cert Manager)**                                                                                                                                                                                                                                                                                                               |
 | &nbsp;&nbsp;enabled:                                                   | `false`                                        | Enables [mprove/templates/ingress/*](https://github.com/mprove-io/mprove-helm-charts/tree/master/mprove/templates/ingress) resources                                                                                                                                                                                                                        |
-| &nbsp;&nbsp;host:                                                      | `real-host.example.com`                        | *Replace with real host*. Your DNS should have an entry pointing your host to your kubernetes cluster.                                                                                                                                                                                                                                                      |
+| &nbsp;&nbsp;host:                                                      | `real-host.example.com`                        | *Replace with real host*.                                                                                                                                                                                                                                                                                                                                   |
 | &nbsp;&nbsp;acmeEmail:                                                 | `real-email@example.com`                       | *Replace with real email*. For cert-manager ClusterIssuer.                                                                                                                                                                                                                                                                                                  |
 | &nbsp;&nbsp;certProdSecretName:                                        | `cert-prod-secret`                             |                                                                                                                                                                                                                                                                                                                                                             |
 | &nbsp;&nbsp;certStagingSecretName:                                     | `cert-staging-secret`                          |                                                                                                                                                                                                                                                                                                                                                             |
