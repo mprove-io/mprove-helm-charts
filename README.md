@@ -24,11 +24,9 @@ curl 'https://raw.githubusercontent.com/mprove-io/mprove-helm-charts/master/valu
 
 ### Mprove Istio Ingress
 
-Your cluster must be accessible from the Internet.
+Your DNS should have an A record pointing your `real-host.example.com` to your kubernetes cluster.
 
-Your DNS must have an A record pointing your `real-host.example.com` to your kubernetes cluster.
-
-The **values-mprove.yaml** file must have overrides:
+The **values-mprove.yaml** overrides:
 ```
 ingress:
   enabled: true
