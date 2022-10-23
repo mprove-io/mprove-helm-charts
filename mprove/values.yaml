@@ -33,30 +33,6 @@ rabbit:
     RABBITMQ_DEFAULT_PASS: rabbitpass
     RABBITMQ_ERLANG_COOKIE: rabbitcookie
 
-dwhPostgres:
-  enabled: true
-  image: ghcr.io/mprove-io/mprove-dwh-postgres
-  name: dwh-postgres
-  storage: 2Gi
-  envsSecretName: dwh-postgres-envs
-  createEnvsSecret: true
-  envs:
-    PGDATA: /var/lib/postgresql/data/pgdata
-    POSTGRES_PASSWORD: postgrespass
-
-dwhClickhouse:
-  enabled: true
-  image: ghcr.io/mprove-io/mprove-dwh-clickhouse
-  name: dwh-clickhouse
-  storage: 2Gi
-  storageLogs: 2Gi
-  envsSecretName: dwh-clickhouse-envs
-  createEnvsSecret: true
-  envs:
-    CLICKHOUSE_DB: c_db
-    CLICKHOUSE_USER: c_user
-    CLICKHOUSE_PASSWORD: clickhousepass
-
 front:
   image: ghcr.io/mprove-io/mprove-front
   name: front
@@ -181,4 +157,28 @@ backendCommon:
     BACKEND_LOG_RESPONSE_OK: 'FALSE'
     BACKEND_LOG_ON_SENDER: 'FALSE'
     BACKEND_LOG_ON_RESPONSER: 'TRUE'
+
+dwhPostgres:
+  enabled: true
+  image: ghcr.io/mprove-io/mprove-dwh-postgres
+  name: dwh-postgres
+  storage: 2Gi
+  envsSecretName: dwh-postgres-envs
+  createEnvsSecret: true
+  envs:
+    PGDATA: /var/lib/postgresql/data/pgdata
+    POSTGRES_PASSWORD: postgrespass
+
+dwhClickhouse:
+  enabled: true
+  image: ghcr.io/mprove-io/mprove-dwh-clickhouse
+  name: dwh-clickhouse
+  storage: 2Gi
+  storageLogs: 2Gi
+  envsSecretName: dwh-clickhouse-envs
+  createEnvsSecret: true
+  envs:
+    CLICKHOUSE_DB: c_db
+    CLICKHOUSE_USER: c_user
+    CLICKHOUSE_PASSWORD: clickhousepass
 

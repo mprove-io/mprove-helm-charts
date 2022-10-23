@@ -12,14 +12,6 @@ rabbit:
     RABBITMQ_DEFAULT_PASS: replaceWith32CharString
     RABBITMQ_ERLANG_COOKIE: replaceWith32CharString
 
-dwhPostgres:
-  envs:
-    POSTGRES_PASSWORD: replaceWith32CharString
-
-dwhClickhouse:
-  envs:
-    CLICKHOUSE_PASSWORD: replaceWith32CharString
-
 front:
   replicas: 1
 
@@ -70,3 +62,11 @@ backendCommon:
     BACKEND_SMTP_HOST: real-smtp.example.com
     BACKEND_SMTP_AUTH_USER: realSmtpUser
     BACKEND_SMTP_AUTH_PASSWORD: realSmtpPassword
+
+dwhPostgres:
+  envs:
+    POSTGRES_PASSWORD: replaceWith32CharString
+
+dwhClickhouse:
+  envs:
+    CLICKHOUSE_PASSWORD: replaceWith32CharString    
