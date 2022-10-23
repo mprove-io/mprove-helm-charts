@@ -1,13 +1,13 @@
 # Mprove Helm Charts
 
 ## Prerequisites
-  - Kubernetes cluster
+  - Kubernetes cluster (min 4 CPUs, 16 GB RAM recommended)
   - Kubectl
   - Helm v3.10+
 
-### Setup Kubernetes Cluster
+## Setup Kubernetes Cluster
 
-Create **mprove** namespace:
+Create namespace:
 ```
 kubectl create namespace mprove
 ```
@@ -36,7 +36,7 @@ ingress:
   acmeEmail: real-email@example.com
 ```
 
-## Custom Ingress
+### Custom Ingress
 
 If you are using your own Ingress, make sure HTTP requests are routed between the Front and Backend services using the "/api" prefix. Check [mprove/templates/ingress/route.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/mprove/templates/ingress/route.yaml) for example.
 
