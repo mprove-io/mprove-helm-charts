@@ -5,7 +5,12 @@
   - Kubectl
   - Helm v3.10+
 
-## Setup Kubernetes Cluster
+### Setup Kubernetes Cluster
+
+Create **mprove** namespace:
+```
+kubectl create namespace mprove
+```
 
 Default [mprove/values.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/mprove/values.yaml) values should be overrided by your custom values. Values examples:
 - [values-mprove-example-managed-demo.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/values-mprove-example-managed-demo.yaml)
@@ -17,12 +22,7 @@ Create **values-mprove.yaml** file to override helm chart default values:
 curl 'https://raw.githubusercontent.com/mprove-io/mprove-helm-charts/master/values-mprove-example-managed-demo.yaml' > values-mprove.yaml
 ```
 
-Create **mprove** namespace:
-```
-kubectl create namespace mprove
-```
-
-## Mprove Istio Ingress
+### Mprove Istio Ingress
 
 Your cluster must be accessible from the Internet.
 
@@ -35,8 +35,6 @@ ingress:
   host: real-host.example.com
   acmeEmail: real-email@example.com
 ```
-
-
 
 ## Custom Ingress
 
