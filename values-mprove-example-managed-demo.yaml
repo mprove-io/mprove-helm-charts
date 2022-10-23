@@ -35,11 +35,6 @@ backendCommon:
       "type": "service_account",
       ... real BigQuery project service account JSON credentials ...
     }
-  firstProjectRemotePrivateKey: |
-    -----BEGIN OPENSSH PRIVATE KEY-----
-    ...
-    -----END OPENSSH PRIVATE KEY-----  
-  firstProjectRemotePublicKey: ssh-rsa ...== (unnamed)         
   envs:
     BACKEND_MYSQL_PASSWORD: replaceWith32CharString
     BACKEND_RABBIT_PASS: replaceWith32CharString
@@ -47,15 +42,14 @@ backendCommon:
     BACKEND_SPECIAL_KEY: replaceWith32CharString
     BACKEND_FIRST_USER_EMAIL: real-email@example.com
     BACKEND_FIRST_USER_PASSWORD: userpass
-    BACKEND_FIRST_PROJECT_REMOTE_TYPE: GitClone
-    BACKEND_FIRST_PROJECT_GIT_URL: git@github.com:account-name/repo-name.git    
+    BACKEND_FIRST_PROJECT_REMOTE_TYPE: Managed
+    BACKEND_FIRST_PROJECT_GIT_URL:   
     BACKEND_FIRST_PROJECT_DWH_POSTGRES_PASSWORD: replaceWith32CharString
     BACKEND_FIRST_PROJECT_DWH_CLICKHOUSE_PASSWORD: replaceWith32CharString
     BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_ACCOUNT: realSnowflakeAccount
     BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_WAREHOUSE: realSnowflakeWarehouse
     BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_USERNAME: realSnowflakeUsername
     BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_PASSWORD: realSnowflakePassword
-    BACKEND_REGISTER_ONLY_INVITED_USERS: 'FALSE'
     BACKEND_HOST_URL: https://real-host.example.com
     BACKEND_SEND_EMAIL_FROM_NAME: My Company Name
     BACKEND_SEND_EMAIL_FROM_ADDRESS: no-reply@example.com

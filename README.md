@@ -10,10 +10,10 @@
 Create **values-mprove.yaml** file to override helm chart default values.
 
 ```
-curl '' > values-mprove.yaml
+curl '123' > values-mprove.yaml
 ```
 
- [abc](https://github.com/mprove-io/mprove-helm-charts/blob/master/values-mprove-example-mprove.yaml)
+ [abc](https://github.com/mprove-io/mprove-helm-charts/blob/master/values-mprove-example-managed-demo.yaml)
 
 ```
 kubectl create namespace mprove
@@ -197,7 +197,7 @@ dwhClickhouse:
 | &nbsp;&nbsp;&nbsp;&nbsp;BACKEND_FIRST_ORG_ID:                          | `AWNCAHWLFQTQJYCH3ZSE`                         |                                                                                                                                                                                                                                                                                                                                                             |
 | &nbsp;&nbsp;&nbsp;&nbsp;BACKEND_FIRST_PROJECT_ID:                      | `DXYE72ODCP5LWPWH2EXQ`                         |                                                                                                                                                                                                                                                                                                                                                             |
 | &nbsp;&nbsp;&nbsp;&nbsp;BACKEND_FIRST_PROJECT_REMOTE_TYPE:             | `Managed`                                      | Value must be `Managed` or `GitClone`.                                                                                                                                                                                                                                                                                                                      |
-| &nbsp;&nbsp;&nbsp;&nbsp;BACKEND_FIRST_PROJECT_GIT_URL:                 | `git@github.com:account-name/repo-name.git`    | *Replace with your value*. Required if BACKEND FIRST_PROJECT_REMOTE_TYPE is set to `GitClone`                                                                                                                                                                                                                                                               |
+| &nbsp;&nbsp;&nbsp;&nbsp;BACKEND_FIRST_PROJECT_GIT_URL:                 |                                                | *Replace with your value*. Required if BACKEND FIRST_PROJECT_REMOTE_TYPE is set to `GitClone`. Git URL format is `git@github.com:account-name/repo-name.git`.                                                                                                                                                                                               |
 | &nbsp;&nbsp;&nbsp;&nbsp;BACKEND_FIRST_PROJECT_PRIVATE_KEY_PATH:        | `secrets/first-project-remote-private-key.pem` |                                                                                                                                                                                                                                                                                                                                                             |
 | &nbsp;&nbsp;&nbsp;&nbsp;BACKEND_FIRST_PROJECT_PUBLIC_KEY_PATH:         | `secrets/first-project-remote-public-key.pem`  |                                                                                                                                                                                                                                                                                                                                                             |
 | &nbsp;&nbsp;&nbsp;&nbsp;BACKEND_FIRST_PROJECT_SEED_CONNECTIONS:        | `'TRUE'`                                       | Value must be `'TRUE'` or `'FALSE'`                                                                                                                                                                                                                                                                                                                         |
