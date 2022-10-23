@@ -7,13 +7,18 @@
 
 ## Setup Kubernetes Cluster
 
+Default [mprove/values.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/mprove/values.yaml) values should be overrided by your custom values.
+
+Values examples:
+- [values-mprove-example-managed-demo.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/values-mprove-example-managed-demo.yaml)
+- [values-mprove-example-no-demo.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/values-mprove-example-no-demo.yaml)
+- [values-mprove-example-gitclone-demo.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/values-mprove-example-gitclone-demo.yaml)
+
 Create **values-mprove.yaml** file to override helm chart default values.
 
 ```
-curl '123' > values-mprove.yaml
+curl 'https://raw.githubusercontent.com/mprove-io/mprove-helm-charts/master/values-mprove-example-managed-demo.yaml' > values-mprove.yaml
 ```
-
- [abc](https://github.com/mprove-io/mprove-helm-charts/blob/master/values-mprove-example-managed-demo.yaml)
 
 ```
 kubectl create namespace mprove
