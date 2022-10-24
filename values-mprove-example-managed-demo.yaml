@@ -39,7 +39,6 @@ backendCommon:
     BACKEND_MYSQL_PASSWORD: replaceWith32CharString
     BACKEND_RABBIT_PASS: replaceWith32CharString
     BACKEND_JWT_SECRET: replaceWith32CharString
-    BACKEND_SPECIAL_KEY: replaceWith32CharString
     BACKEND_FIRST_USER_EMAIL: real-email@example.com
     BACKEND_FIRST_USER_PASSWORD: userpass
     BACKEND_FIRST_PROJECT_REMOTE_TYPE: Managed
