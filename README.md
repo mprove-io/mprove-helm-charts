@@ -70,11 +70,11 @@ helm install cert-manager jetstack/cert-manager -n cert-manager --create-namespa
 ## Install / Upgrade / Uninstall / Template
 
 ```
-helm install -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.20 -n mprove
+helm install -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.21 -n mprove
 ```
 
 ```
-helm upgrade -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.20 -n mprove
+helm upgrade -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.21 -n mprove
 ```
 
 ```
@@ -82,7 +82,7 @@ helm uninstall mprove -n mprove
 ```
 
 ```
-helm template -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.20 -n mprove
+helm template -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.21 -n mprove
 ```
 
 ## First Project (demo/p1)
