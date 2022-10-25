@@ -1,7 +1,7 @@
 # Mprove Helm Charts
 
 ## Prerequisites
-  - Kubernetes cluster (min 4 CPUs, 16 GB RAM recommended)
+  - Kubernetes cluster 
   - Kubectl
   - Helm v3.10+
 
