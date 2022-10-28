@@ -13,6 +13,7 @@ db:
   image: mysql
   tag: 8.0.29
   name: db
+  pvcLabels: {}
   storage: 10Gi
   envsSecretName: db-envs
   createEnvsSecret: true
@@ -41,7 +42,8 @@ front:
 disk:
   image: ghcr.io/mprove-io/mprove-disk
   name: disk
-  storage: 2Gi
+  pvcLabels: {}  
+  storage: 5Gi
   envsSecretName: disk-envs
   createEnvsSecret: true
   envs:

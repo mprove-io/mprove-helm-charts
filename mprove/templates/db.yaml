@@ -43,6 +43,11 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: db-pvc
+  labels:
+    app: {{ .Values.db.name }}
+  {{- with .Values.db.pvcLabels }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}  
 spec:
   accessModes:
     - ReadWriteOnce
