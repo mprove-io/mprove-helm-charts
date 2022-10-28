@@ -35,16 +35,6 @@ ingress:
 
 ### Mprove Istio Ingress
 
-Your DNS should have an A record pointing your `real-host.example.com` to your kubernetes cluster.
-
-**values-mprove.yaml** overrides example:
-```
-ingress:
-  enabled: true
-  host: real-host.example.com
-  acmeEmail: real-email@example.com
-```
-
 Install istioctl:
 ```
 brew install istioctl 
@@ -67,7 +57,17 @@ helm repo update
 helm install cert-manager jetstack/cert-manager -n cert-manager --create-namespace --set installCRDs=true
 ```
 
-## Install / Upgrade / Uninstall / Template
+Create DNS A record pointing your `real-host.example.com` to your kubernetes cluster's LoadBalancer public IP.
+
+**values-mprove.yaml** overrides example:
+```
+ingress:
+  enabled: true
+  host: real-host.example.com
+  acmeEmail: real-email@example.com
+```
+
+## Install Mprove Helm Chart
 
 ```
 helm install -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.23 -n mprove
