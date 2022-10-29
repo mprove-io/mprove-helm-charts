@@ -70,11 +70,11 @@ ingress:
 ## Install Mprove Helm Chart
 
 ```
-helm install -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.23 -n mprove
+helm install -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.24 -n mprove
 ```
 
 ```
-helm upgrade -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.23 -n mprove
+helm upgrade -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.24 -n mprove
 ```
 
 ```
@@ -82,7 +82,7 @@ helm uninstall mprove -n mprove
 ```
 
 ```
-helm template -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.23 -n mprove
+helm template -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version 0.0.24 -n mprove
 ```
 
 ## First Project (demo/p1)
