@@ -55,14 +55,12 @@ disk:
     DISK_RABBIT_PASS: rabbitpass
     DISK_RABBIT_HOST: rabbit
     DISK_RABBIT_PORT: 5672
-    DISK_LOG_IS_COLOR: 'TRUE'
+    DISK_LOG_IS_JSON: 'TRUE'
     DISK_LOG_RESPONSE_ERROR: 'FALSE'
     DISK_LOG_RESPONSE_OK: 'FALSE'
-    DISK_LOG_ON_SENDER: 'FALSE'
-    DISK_LOG_ON_RESPONSER: 'TRUE'
 
-blockmlMainWorker:
-  name: blockml-main-worker
+blockmlSingle:
+  name: blockml-single
   replicas: 1
 
 blockmlCommon:  
@@ -85,11 +83,9 @@ blockmlCommon:
     BLOCKML_IS_MAIN: 'FALSE'
     BLOCKML_IS_WORKER: 'FALSE'
     BLOCKML_CONCURRENCY_LIMIT: 0
-    BLOCKML_LOG_IS_COLOR: 'TRUE'
+    BLOCKML_LOG_IS_JSON: 'TRUE'
     BLOCKML_LOG_RESPONSE_ERROR: 'FALSE'
     BLOCKML_LOG_RESPONSE_OK: 'FALSE'
-    BLOCKML_LOG_ON_SENDER: 'FALSE'
-    BLOCKML_LOG_ON_RESPONSER: 'TRUE'
 
 backend:
   name: backend
@@ -155,11 +151,9 @@ backendCommon:
     BACKEND_SMTP_SECURE: 'TRUE'
     BACKEND_SMTP_AUTH_USER: realSmtpUser
     BACKEND_SMTP_AUTH_PASSWORD: realSmtpPassword
-    BACKEND_LOG_IS_COLOR: 'TRUE'
+    BACKEND_LOG_IS_JSON: 'TRUE'
     BACKEND_LOG_RESPONSE_ERROR: 'FALSE'
     BACKEND_LOG_RESPONSE_OK: 'FALSE'
-    BACKEND_LOG_ON_SENDER: 'FALSE'
-    BACKEND_LOG_ON_RESPONSER: 'TRUE'
 
 dwhPostgres:
   enabled: true

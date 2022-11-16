@@ -15,6 +15,7 @@ Thumbs.db
 
 # Helm
 *.tgz
+Chart.lock
 
 # compiled output
 /dist

@@ -19,7 +19,7 @@ disk:
   envs:
     DISK_RABBIT_PASS: replaceWith32CharString
 
-blockmlMainWorker:
+blockmlSingle:
   replicas: 1
 
 blockmlCommon:

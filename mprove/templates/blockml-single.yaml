@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.blockmlMainWorker.name }}
+  name: {{ .Values.blockmlSingle.name }}
   labels:
-    app: {{ .Values.blockmlMainWorker.name }}
+    app: {{ .Values.blockmlSingle.name }}
 spec:
-  replicas: {{ .Values.blockmlMainWorker.replicas }}
+  replicas: {{ .Values.blockmlSingle.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.blockmlMainWorker.name }}
+      app: {{ .Values.blockmlSingle.name }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: {{ .Values.blockmlMainWorker.name }}
+        app: {{ .Values.blockmlSingle.name }}
     spec:
       containers:
-      - name: {{ .Values.blockmlMainWorker.name }}
+      - name: {{ .Values.blockmlSingle.name }}
         image: {{ .Values.blockmlCommon.image }}:{{ .Chart.AppVersion }}
         command: 
         - sh
@@ -29,11 +29,11 @@ spec:
           node dist/apps/blockml/main.js
         env:        
         - name: BLOCKML_IS_MAIN
-          value: 'TRUE'        
+          value: 'FALSE'        
         - name: BLOCKML_IS_WORKER
-          value: 'TRUE'        
+          value: 'FALSE'        
         - name: BLOCKML_IS_SINGLE
-          value: 'FALSE'          
+          value: 'TRUE'          
         envFrom:
         - secretRef:
             name: {{ .Values.blockmlCommon.envsSecretName }}
