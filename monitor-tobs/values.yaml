@@ -1,0 +1,7 @@
+tobs:
+  timescaledb-single:
+    image:
+      tag: pg14.6-ts2.8.1-patroni-static-primary-p0
+    persistentVolumes:
+      data:
+        size: 100Gi

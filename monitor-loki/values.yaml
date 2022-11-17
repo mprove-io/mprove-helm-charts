@@ -1,0 +1,22 @@
+monitorLoki:
+  name: monitor-loki
+  pvcName: monitor-loki-pvc
+  pvcLabels: {}
+  storage: 100Gi 
+
+loki-stack:
+  loki:
+    enabled: true
+    persistence:
+      enabled: true
+      existingClaim: monitor-loki-pvc
+  promtail:
+    enabled: true
+  grafana:
+    enabled: false
+  prometheus:
+    enabled: false
+  filebeat:
+    enabled: false
+  logstash:
+    enabled: false
