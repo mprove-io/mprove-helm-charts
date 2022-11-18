@@ -10,6 +10,9 @@ spec:
   servers:
   - hosts:
     - {{ .Values.ingress.host }}
+{{- if .Values.ingress.routeGrafana.enabled }}
+    - {{ .Values.ingress.routeGrafana.host }}
+{{- end }}      
     port:
       name: http
       number: 80
@@ -18,6 +21,9 @@ spec:
       httpsRedirect: false
   - hosts:
     - {{ .Values.ingress.host }}
+{{- if .Values.ingress.routeGrafana.enabled }}
+    - {{ .Values.ingress.routeGrafana.host }}
+{{- end }}     
     port:
       number: 443
       name: https

@@ -4,6 +4,10 @@ ingress:
   acmeEmail: real-email@example.com
   certProdSecretName: cert-prod-secret
   certStagingSecretName: cert-staging-secret
+  routeGrafana:
+    enabled: false
+    host: grafana.example.com
+    destination: grafana-service-name.grafana-namespace.svc.cluster.local
 
 kubeSystemNodeSetup:
   enabled: true
