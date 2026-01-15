@@ -31,6 +31,7 @@ Install
 kubectl create namespace mprove
 
 # Replace <CHART_VERSION> with release from https://github.com/mprove-io/mprove-helm-charts/releases
+
 helm install -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version <CHART_VERSION> -n mprove
 ```
 
@@ -38,6 +39,7 @@ Upgrade
 
 ```
 # Replace <CHART_VERSION> with release from https://github.com/mprove-io/mprove-helm-charts/releases
+
 helm upgrade -f values-mprove.yaml mprove oci://ghcr.io/mprove-io/mprove-helm-charts/mprove --version <CHART_VERSION> -n mprove
 ```
 
