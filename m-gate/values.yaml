@@ -10,6 +10,9 @@ ingressMprove:
 ingressMprovePlay:
   enabled: false  
   host: host.example.com
+ingressMproveDocs:
+  enabled: false  
+  host: host.example.com
 ingressClickstack:
   enabled: false  
   host: host.example.com
