@@ -8,7 +8,7 @@ Mprove helm chart is in "mprove" directory.
   - Helm
   - Server with 4 CPU and 8GB RAM (minimum)
 
-### Values
+### Prepare Values
 
 Provide custom values to override default [mprove/values.yaml](https://github.com/mprove-io/mprove-helm-charts/blob/master/mprove/values.yaml)
 
