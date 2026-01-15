@@ -1,0 +1,34 @@
+{{- if .Values.ingressMprove.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mprove
+  namespace: mprove
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/tls-acme: "true" 
+spec:
+  ingressClassName: nginx
+  tls: 
+  - hosts:
+    - {{ .Values.ingressMprove.host }}
+    secretName: {{ .Values.ingressMprove.tlsSecretName }}
+  rules:
+    - host: {{ .Values.ingressMprove.host }}
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 3000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: front
+                port:
+                  number: 80
+{{- end }} 

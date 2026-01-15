@@ -1,0 +1,74 @@
+{{- if .Values.db.enabled -}}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.db.name }}-pvc
+  labels:
+    app: {{ .Values.db.name }}
+  {{- with .Values.db.pvcLabels }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}  
+spec:
+  storageClassName: {{ .Values.db.storageClassName }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.db.storage }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.db.name }}
+  labels:
+    app: {{ .Values.db.name }}
+spec:
+  selector:
+    app: {{ .Values.db.name }}
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+    name: {{ .Values.db.name }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.db.name }}
+  labels:
+    app: {{ .Values.db.name }}
+  annotations:
+    {{- toYaml .Values.db.annotations | nindent 4 }}
+spec:
+  serviceName: {{ .Values.db.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.db.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.db.name }}
+    spec:
+      affinity: 
+        {{- toYaml .Values.db.affinity | nindent 8 }}    
+      containers:
+      - name: {{ .Values.db.name }}
+        image: {{ .Values.db.image }}:{{ .Values.db.tag }}
+        env:
+        - name: PGDATA
+          value: /var/lib/postgresql/18/docker/data
+        envFrom:
+        - secretRef:
+            name: {{ .Values.db.envsSecretName }}
+        ports:
+        - containerPort: {{ .Values.db.envs.PGPORT }}
+          name: {{ .Values.db.name }}
+        volumeMounts:
+        - name: {{ .Values.db.name }}-persistent-storage
+          mountPath: /var/lib/postgresql/18/docker
+      volumes:
+      - name: {{ .Values.db.name }}-persistent-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.db.name }}-pvc
+{{- end }}    

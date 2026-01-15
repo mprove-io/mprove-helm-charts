@@ -1,0 +1,56 @@
+{{- if .Values.valkey.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.valkey.name }}
+  labels:
+    app: {{ .Values.valkey.name }}
+spec:
+  selector:
+    app: {{ .Values.valkey.name }}
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+    name: valkey
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.valkey.name }}
+  labels:
+    app: {{ .Values.valkey.name }}
+  annotations:
+    {{- toYaml .Values.valkey.annotations | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.valkey.name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.valkey.name }}
+    spec:
+      affinity: 
+        {{- toYaml .Values.valkey.affinity | nindent 8 }}      
+      containers:
+      - name: {{ .Values.valkey.name }}
+        image: {{ .Values.valkey.image }}:{{ .Values.valkey.tag }}
+        command:
+        - valkey-server
+        - --requirepass
+        - $(VALKEY_PASSWORD)
+        - --save
+        - ""
+        - --appendonly
+        - "no"
+        envFrom:
+        - secretRef:
+            name: {{ .Values.valkey.envsSecretName }}          
+        ports:
+        - containerPort: 6379
+          name: valkey
+{{- end }}    

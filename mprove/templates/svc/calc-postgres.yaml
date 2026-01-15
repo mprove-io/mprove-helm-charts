@@ -1,0 +1,85 @@
+{{- if .Values.calcPostgres.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.calcPostgres.name }}-pvc
+spec:
+  storageClassName: {{ .Values.calcPostgres.storageClassName }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.calcPostgres.storage }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.calcPostgres.name }}
+  labels:
+    app: {{ .Values.calcPostgres.name }}
+spec:
+  selector:
+    app: {{ .Values.calcPostgres.name }}
+  type: ClusterIP
+  ports:
+  - port: 5437
+    targetPort: 5437
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.calcPostgres.name }}
+  labels:
+    app: {{ .Values.calcPostgres.name }}
+  annotations:
+    {{- toYaml .Values.calcPostgres.annotations | nindent 4 }}
+spec:
+  serviceName: {{ .Values.calcPostgres.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.calcPostgres.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.calcPostgres.name }}
+    spec:
+{{- if .Values.imagePullSecrets.enabled }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets.name }}
+{{- end }}    
+      affinity: 
+        {{- toYaml .Values.calcPostgres.affinity | nindent 8 }}
+      containers:
+      - name: {{ .Values.calcPostgres.name }}
+        image: {{ .Values.calcPostgres.image }}:{{ .Values.calcPostgres.tag }}
+        env:
+        - name: PGDATA
+          value: /var/lib/postgresql/18/docker/data
+        envFrom:
+        - secretRef:
+            name: {{ .Values.calcPostgres.envsSecretName }} 
+        ports:
+        - containerPort: {{ .Values.calcPostgres.envs.PGPORT }}
+          name: {{ .Values.calcPostgres.name }}
+        volumeMounts:
+        - name: {{ .Values.calcPostgres.name }}-persistent-storage
+          mountPath: /var/lib/postgresql/18/docker
+        - name: init-script
+          mountPath: /docker-entrypoint-initdb.d/init-calc-user.sh
+          subPath: init-calc-user.sh
+      volumes:
+      - name: {{ .Values.calcPostgres.name }}-persistent-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.calcPostgres.name }}-pvc
+      - name: init-script
+        secret:
+          secretName: {{ .Values.calcPostgres.initSecretName }}
+          defaultMode: 0755
+          items:
+            - key: script
+              path: init-calc-user.sh
+---
+{{- end }}  
+
+
+ 

@@ -1,0 +1,76 @@
+{{- if .Values.recovery.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.recovery.name }}-pvc
+  namespace: databasus
+  labels:
+    app: {{ .Values.recovery.name }}
+  {{- with .Values.recovery.pvcLabels }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}  
+spec:
+  storageClassName: {{ .Values.recovery.storageClassName }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.recovery.storage }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.recovery.name }}
+  namespace: databasus
+  labels:
+    app: {{ .Values.recovery.name }}
+  annotations:
+    {{- toYaml .Values.recovery.annotations | nindent 4 }}
+spec:
+  selector:
+    app: {{ .Values.recovery.name }}
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+    name: {{ .Values.recovery.name }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.recovery.name }}
+  namespace: databasus
+  labels:
+    app: {{ .Values.recovery.name }}
+spec:
+  serviceName: {{ .Values.recovery.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.recovery.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.recovery.name }}
+    spec:
+      affinity: 
+        {{- toYaml .Values.recovery.affinity | nindent 8 }}    
+      containers:
+      - name: {{ .Values.recovery.name }}
+        image: {{ .Values.recovery.image }}:{{ .Values.recovery.tag }}
+        env:
+        - name: PGDATA
+          value: /var/lib/postgresql/18/docker/data
+        envFrom:
+        - secretRef:
+            name: {{ .Values.recovery.envsSecretName }}
+        ports:
+        - containerPort: 5432
+          name: {{ .Values.recovery.name }}
+        volumeMounts:
+        - name: {{ .Values.recovery.name }}-persistent-storage
+          mountPath: /var/lib/postgresql/18/docker
+      volumes:
+      - name: {{ .Values.recovery.name }}-persistent-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.recovery.name }}-pvc
+{{- end }}    

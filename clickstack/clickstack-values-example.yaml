@@ -1,0 +1,158 @@
+global:
+  storageClassName: "hcloud-volumes"
+  keepPVC: true
+
+hyperdx:
+  image:
+    repository: docker.hyperdx.io/hyperdx/hyperdx
+    tag: 2.8.0
+  ingress: 
+    enabled: false
+  nodeSelector:
+    node-for: "common"
+  frontendUrl: "https://st-clickstack.mprove.io"
+  apiKey: exampleapikey
+  usageStatsEnabled: false
+  defaultConnections: |
+    [
+      {
+        "name": "External ClickHouse",
+        "host": "http://chi-clickhouse-cs-clickhouse-cs-0-0.clickhouse-cs.svc.cluster.local:8123",
+        "port": 8123,
+        "username": "app",
+        "password": "appuserpassword"
+      }
+    ]
+  defaultSources: |
+    [
+      {
+        "from": {
+          "databaseName": "default",
+          "tableName": "otel_logs"
+        },
+        "kind": "log",
+        "timestampValueExpression": "TimestampTime",
+        "name": "Logs",
+        "displayedTimestampValueExpression": "Timestamp",
+        "implicitColumnExpression": "Body",
+        "serviceNameExpression": "ServiceName",
+        "bodyExpression": "Body",
+        "eventAttributesExpression": "LogAttributes",
+        "resourceAttributesExpression": "ResourceAttributes",
+        "defaultTableSelectExpression": "Timestamp,ServiceName,SeverityText,Body",
+        "severityTextExpression": "SeverityText",
+        "traceIdExpression": "TraceId",
+        "spanIdExpression": "SpanId",
+        "connection": "External ClickHouse",
+        "traceSourceId": "Traces",
+        "sessionSourceId": "Sessions",
+        "metricSourceId": "Metrics"
+      },
+      {
+        "from": {
+          "databaseName": "default",
+          "tableName": "otel_traces"
+        },
+        "kind": "trace",
+        "timestampValueExpression": "Timestamp",
+        "name": "Traces",
+        "displayedTimestampValueExpression": "Timestamp",
+        "implicitColumnExpression": "SpanName",
+        "serviceNameExpression": "ServiceName",
+        "bodyExpression": "SpanName",
+        "eventAttributesExpression": "SpanAttributes",
+        "resourceAttributesExpression": "ResourceAttributes",
+        "defaultTableSelectExpression": "Timestamp,ServiceName,StatusCode,round(Duration/1e6),SpanName",
+        "traceIdExpression": "TraceId",
+        "spanIdExpression": "SpanId",
+        "durationExpression": "Duration",
+        "durationPrecision": 9,
+        "parentSpanIdExpression": "ParentSpanId",
+        "spanNameExpression": "SpanName",
+        "spanKindExpression": "SpanKind",
+        "statusCodeExpression": "StatusCode",
+        "statusMessageExpression": "StatusMessage",
+        "connection": "External ClickHouse",
+        "logSourceId": "Logs",
+        "sessionSourceId": "Sessions",
+        "metricSourceId": "Metrics"
+      },
+      {
+        "from": {
+          "databaseName": "default",
+          "tableName": ""
+        },
+        "kind": "metric",
+        "timestampValueExpression": "TimeUnix",
+        "name": "Metrics",
+        "resourceAttributesExpression": "ResourceAttributes",
+        "metricTables": {
+          "gauge": "otel_metrics_gauge",
+          "histogram": "otel_metrics_histogram",
+          "sum": "otel_metrics_sum",
+          "_id": "682586a8b1f81924e628e808",
+          "id": "682586a8b1f81924e628e808"
+        },
+        "connection": "External ClickHouse",
+        "logSourceId": "Logs",
+        "traceSourceId": "Traces",
+        "sessionSourceId": "Sessions"
+      },
+      {
+        "from": {
+          "databaseName": "default",
+          "tableName": "hyperdx_sessions"
+        },
+        "kind": "session",
+        "timestampValueExpression": "TimestampTime",
+        "name": "Sessions",
+        "displayedTimestampValueExpression": "Timestamp",
+        "implicitColumnExpression": "Body",
+        "serviceNameExpression": "ServiceName",
+        "bodyExpression": "Body",
+        "eventAttributesExpression": "LogAttributes",
+        "resourceAttributesExpression": "ResourceAttributes",
+        "defaultTableSelectExpression": "Timestamp,ServiceName,SeverityText,Body",
+        "severityTextExpression": "SeverityText",
+        "traceIdExpression": "TraceId",
+        "spanIdExpression": "SpanId",
+        "connection": "External ClickHouse",
+        "logSourceId": "Logs",
+        "traceSourceId": "Traces",
+        "metricSourceId": "Metrics"
+      }
+    ]
+
+mongodb:
+  persistence:
+    enabled: true
+    dataSize: 10Gi
+  nodeSelector:
+    node-for: "common"
+
+clickhouse:
+  enabled: false
+
+otel:
+  enabled: true
+  image:
+    repository: docker.hyperdx.io/hyperdx/hyperdx-otel-collector
+    tag: 2.8.0
+    pullPolicy: IfNotPresent
+  clickhouseEndpoint: "http://chi-clickhouse-cs-clickhouse-cs-0-0.clickhouse-cs.svc.cluster.local:8123"
+  clickhouseUser: "otelcollector"
+  clickhousePassword: "otelcollectoruserpassword"
+  nodeSelector:
+    node-for: "common"
+
+tasks:
+  enabled: false
+  checkAlerts:
+    schedule: "*/1 * * * *"
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi

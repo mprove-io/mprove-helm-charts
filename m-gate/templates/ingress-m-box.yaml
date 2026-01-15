@@ -1,0 +1,27 @@
+{{- if .Values.ingressBox.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: m-box
+  namespace: m-box
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/tls-acme: "true" 
+spec:
+  ingressClassName: nginx
+  tls: 
+  - hosts:
+    - {{ .Values.ingressBox.host }}
+    secretName: {{ .Values.gate.tlsSecretName }}
+  rules:
+    - host: {{ .Values.ingressBox.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: m-box
+                port:
+                  number: 80
+{{- end }} 

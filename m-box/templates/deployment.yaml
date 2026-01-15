@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: m-box
+  annotations:                          
+    kubernetes.io/ingress.class: nginx  
+  labels:
+    app: m-box
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: m-box
+  template:
+    metadata:
+      labels:
+        app: m-box
+    spec:
+      containers:
+        - name: m-box
+          image: rancher/hello-world
+          ports:
+            - containerPort: 80

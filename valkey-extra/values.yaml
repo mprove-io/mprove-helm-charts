@@ -1,0 +1,4 @@
+secretValkeyUsers:
+  envs:
+    VALKEY_READ_USER_PASSWORD: readUserPassword
+    VALKEY_DEFAULT_USER_PASSWORD: defaultUserPassword

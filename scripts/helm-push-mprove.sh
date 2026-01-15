@@ -2,3 +2,4 @@ export CHART_VERSION=$(grep 'version:' ./mprove/Chart.yaml | tail -n1 | awk '{ p
   && helm push mprove-${CHART_VERSION}.tgz oci://ghcr.io/mprove-io/mprove-helm-charts \
   && rm -rf mprove-${CHART_VERSION}.tgz
 
+

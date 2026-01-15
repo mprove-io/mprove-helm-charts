@@ -1,3 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Values.front.name }}
+  name: {{ .Values.front.name }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.front.name }}
+  ports:
+  - name: front
+    port: 80
+    targetPort: 80
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,6 +31,12 @@ spec:
       labels:
         app: {{ .Values.front.name }}
     spec:
+{{- if .Values.imagePullSecrets.enabled }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets.name }}
+{{- end }}    
+      affinity: 
+        {{- toYaml .Values.front.affinity | nindent 8 }}
       containers:
       - name: {{ .Values.front.name }}
         image: {{ .Values.front.image }}:{{ .Chart.AppVersion }}
@@ -23,18 +44,3 @@ spec:
         - containerPort: 80
           name: front
           
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: {{ .Values.front.name }}
-  name: {{ .Values.front.name }}
-spec:
-  type: ClusterIP
-  selector:
-    app: {{ .Values.front.name }}
-  ports:
-  - name: front
-    port: 80
-    targetPort: 80

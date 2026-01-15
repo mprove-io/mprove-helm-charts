@@ -1,0 +1,6 @@
+apiVersion: v2
+name: otel-extra
+description: A helm chart for otel-extra
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

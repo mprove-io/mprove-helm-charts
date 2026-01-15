@@ -1,0 +1,6 @@
+apiVersion: v2
+name: m-box
+description: A helm chart for m-gate
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

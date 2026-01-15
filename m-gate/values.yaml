@@ -1,0 +1,32 @@
+gate:
+  acmeEmail: real-email@example.com
+  tlsSecretName: host.example.com-tls
+ingressBox:
+  enabled: false  
+  host: host.example.com
+ingressMprove:
+  enabled: false  
+  host: host.example.com
+ingressMprovePlay:
+  enabled: false  
+  host: host.example.com
+ingressClickstack:
+  enabled: false  
+  host: host.example.com
+ingressDatabasus:
+  enabled: false  
+  host: host.example.com
+# routeJitsuIngest:
+#   enabled: false  
+#   host: host.example.com
+# routeJitsuUi:
+#   enabled: false
+#   host: host.example.com
+# routeSignozIngest:
+#   enabled: false  
+#   host: host.example.com
+#   inAuthTokenA: intokenA
+#   inAuthTokenB: intokenB
+# routeSignozUi:
+#   enabled: false
+#   host: host.example.com

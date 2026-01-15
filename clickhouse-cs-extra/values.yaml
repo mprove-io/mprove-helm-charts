@@ -1,0 +1,9 @@
+secretClickhouseCsApp:
+  envs:
+    password: csAppPassword
+secretClickhouseCsOtelCollector:
+  envs:
+    password: otelPassword
+secretClickhouseCs:
+  envs:
+    password: csPassword

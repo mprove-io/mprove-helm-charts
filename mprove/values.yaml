@@ -1,185 +1,278 @@
-ingress:
+imagePullSecrets:
   enabled: false
-  host: real-host.example.com
-  acmeEmail: real-email@example.com
-  certProdSecretName: cert-prod-secret
-  certStagingSecretName: cert-staging-secret
-  routeGrafana:
-    enabled: false
-    host: grafana.example.com
-    destination: grafana-service-name.grafana-namespace.svc.cluster.local
+  name: secretname
 
-kubeSystemNodeSetup:
-  enabled: true
+clusterIssuer:
+  enabled: false
+  acmeEmail: real-email@example.com
+
+ingressMprove:
+  enabled: false
+  # -- *Replace*
+  host: host.example.com
+  # -- *Replace*
+  tlsSecretName: host.example.com-tls
 
 db:
   enabled: true
-  image: mysql
-  tag: 8.0.29
+  createEnvsSecret: true
+  image: postgres
+  tag: 18.1
+  annotations: 
+    secret.reloader.stakater.com/reload: secret-db-postgres
   name: db
+  affinity: {}
   pvcLabels: {}
   storage: 10Gi
-  envsSecretName: db-envs
-  createEnvsSecret: true
+  storageClassName: ""
+  envsSecretName: secret-db-postgres
   envs:
-    MYSQL_ROOT_PASSWORD: mysqlpass
-    MYSQL_DATABASE: mprovedb
-    MYSQL_USERNAME: root
+    PGPORT: 5432
+    POSTGRES_DB: mprove_main
+    POSTGRES_USER: mprove_user
+    # -- *Replace*
+    POSTGRES_PASSWORD: dbuserpass
 
-rabbit:
+valkey:
   enabled: true
-  image: rabbitmq
-  tag: 3.10.6-management
-  name: rabbit
-  envsSecretName: rabbit-envs
   createEnvsSecret: true
+  image: valkey/valkey
+  tag: 8.1.4
+  annotations: 
+    secret.reloader.stakater.com/reload: secret-valkey
+  name: valkey
+  affinity: {}
+  envsSecretName: secret-valkey
   envs:
-    RABBITMQ_DEFAULT_USER: rabbituser
-    RABBITMQ_DEFAULT_PASS: rabbitpass
-    RABBITMQ_ERLANG_COOKIE: rabbitcookie
+    # -- *Replace*
+    VALKEY_PASSWORD: valkeypass
+
+calcPostgres:
+  enabled: true
+  createInitSecret: true
+  createEnvsSecret: true
+  image: postgres
+  tag: 18.1
+  annotations: 
+    secret.reloader.stakater.com/reload: secret-calc-postgres,secret-calc-postgres-init
+  name: calc-postgres
+  affinity: {}
+  storage: 2Gi
+  storageClassName: ""
+  initSecretName: secret-calc-postgres-init
+  envsSecretName: secret-calc-postgres
+  envs:
+    PGPORT: 5437
+    CALC_USER: calc_user
+    # -- *Replace*
+    CALC_PASSWORD: calcPass
+    # -- *Replace*
+    POSTGRES_PASSWORD: calcPostgresPass
+
+backend:
+  name: backend
+  replicas: 1
+  affinity: {}
+  
+backendScheduler:
+  enabled: true
+  name: backend-scheduler
+  affinity: {}
+
+backendCommon:
+  createEnvsSecret: true
+  createExtraSecret: true
+  image: ghcr.io/mprove-io/mprove-backend
+  annotations: 
+    secret.reloader.stakater.com/reload: secret-backend,secret-backend-extra
+  envsSecretName: secret-backend
+  extraSecretName: secret-backend-extra
+  extra:
+    demoProjectBigqueryCredentials: |
+      {}
+    demoProjectGoogleApiCredentials: |
+      {}
+    demoProjectRemotePrivateKeyEncrypted: |
+      ''
+    demoProjectRemotePublicKey: ''
+  envs:
+    IS_TELEMETRY_ENABLED: "FALSE"
+    TELEMETRY_ENDPOINT: ""
+    TELEMETRY_HYPERDX_INGEST_API_KEY: ""
+    OTEL_LOG_LEVEL: info
+    # -- Replace with your generated AES KEY - see https://github.com/mprove-io/mprove/blob/master/tools/utils/make-aes-key.ts
+    BACKEND_AES_KEY: 'aeskey'
+    # -- Update with old KEY when you rotate AES KEY
+    BACKEND_PREV_AES_KEY: ""
+    # -- (id for current AES key) increment when you rotate AES KEY
+    BACKEND_AES_KEY_TAG: 1
+    # -- (id for previous AES key) increment when you rotate AES KEY
+    BACKEND_PREV_AES_KEY_TAG: 0
+    BACKEND_TOTAL_DISK_SHARDS: 1
+    BACKEND_RPC_DISK_TIMEOUT_MS: 60000
+    BACKEND_RPC_BLOCKML_TIMEOUT_MS: 30000
+    BACKEND_ALLOW_TEST_ROUTES: "FALSE"
+    BACKEND_ALLOW_USERS_TO_CREATE_ORGANIZATIONS: "FALSE"
+    BACKEND_CALC_POSTGRES_HOST: calc-postgres
+    BACKEND_CALC_POSTGRES_PORT: 5437
+    BACKEND_CALC_POSTGRES_USERNAME: calc_user
+    # -- *Replace*
+    BACKEND_CALC_POSTGRES_PASSWORD: calcPass
+    # BACKEND_DEMO_ORG_ID: AWNCAHWLFQTQJYCH3ZSE
+    # BACKEND_DEMO_PROJECT_DWH_BIGQUERY_CREDENTIALS_PATH: secrets/demo-project-bigquery-credentials.json
+    # BACKEND_DEMO_PROJECT_DWH_GOOGLE_API_CREDENTIALS_PATH: secrets/demo-project-google-api-credentials.json
+    # BACKEND_DEMO_PROJECT_DWH_MOTHERDUCK_TOKEN: motherducktoken
+    # BACKEND_DEMO_PROJECT_DWH_POSTGRES_HOST: dwh-postgres
+    # BACKEND_DEMO_PROJECT_DWH_POSTGRES_USER: dwh_postgres_read_user
+    # BACKEND_DEMO_PROJECT_DWH_POSTGRES_PASSWORD: dwhPostgresReadPass
+    # BACKEND_DEMO_PROJECT_GIT_URL: giturl
+    # BACKEND_DEMO_PROJECT_ID: DXYE72ODCP5LWPWH2EXQ
+    # BACKEND_DEMO_PROJECT_NAME: p1
+    # BACKEND_DEMO_PROJECT_PASS_PHRASE: passphrase
+    # BACKEND_DEMO_PROJECT_PRIVATE_KEY_ENCRYPTED_PATH: secrets/demo-project-remote-private-key-encrypted.pem
+    # BACKEND_DEMO_PROJECT_PUBLIC_KEY_PATH: secrets/demo-project-remote-public-key.pem
+    # BACKEND_DEMO_PROJECT_REMOTE_TYPE: GitClone
+    BACKEND_EMAIL_TRANSPORT: SMTP
+    BACKEND_ENV: PROD
+    # -- *Replace*
+    BACKEND_HOST_URL: https://real-host.example.com
+    BACKEND_IS_ENCRYPT_DB: "TRUE"
+    BACKEND_IS_ENCRYPT_METADATA: "FALSE"
+    BACKEND_IS_POSTGRES_TLS: "FALSE"
+    # -- *Replace*
+    BACKEND_JWT_SECRET: jwtsecret
+    BACKEND_LOG_DRIZZLE_POSTGRES: "FALSE"
+    BACKEND_LOG_IS_JSON: "TRUE"
+    BACKEND_LOG_RESPONSE_ERROR: "TRUE"
+    BACKEND_LOG_RESPONSE_OK: "FALSE"
+    BACKEND_LOG_THROTTLE_TRACKER: "FALSE"
+    # -- *Replace*
+    BACKEND_MPROVE_ADMIN_EMAIL: real-email@example.com
+    # -- *Replace*
+    BACKEND_MPROVE_ADMIN_INITIAL_PASSWORD: userpass
+    # -- *Replace (at least dbuserpass part)*
+    BACKEND_POSTGRES_DATABASE_URL: postgres://mprove_user:dbuserpass@db:5435/mprove_main
+    BACKEND_REGISTER_ONLY_INVITED_USERS: "TRUE"
+    BACKEND_REQUEST_IP_HEADER_A: "x-original-forwarded-for"
+    BACKEND_REQUEST_IP_HEADER_B: "x-real-ip"
+    BACKEND_SEED_DEMO_ORG_AND_PROJECT: "FALSE"
+    # -- *Replace*
+    BACKEND_SEND_EMAIL_FROM_ADDRESS: no-reply@example.com
+    # -- *Replace*
+    BACKEND_SEND_EMAIL_FROM_NAME: 'My Company Name'
+    # -- *Replace*
+    BACKEND_SMTP_AUTH_PASSWORD: realSmtpPassword
+    # -- *Replace*
+    BACKEND_SMTP_AUTH_USER: realSmtpUser
+    # -- *Replace*
+    BACKEND_SMTP_HOST: real-smtp.example.com
+    BACKEND_SMTP_PORT: 465
+    BACKEND_SMTP_SECURE: "TRUE"
+    # -- *Replace*
+    BACKEND_SPECIAL_KEY: specialkey
+    # -- hostnames that resolve to internal IP are blocked by default, you can specify more hosts to block - separated by comma "example1.com, example2.com"
+    BACKEND_STORE_API_BLOCK_HOSTS: ""
+    # -- hostnames that resolve to internal IP are blocked by default, you can specify hosts to unblock - separated by comma "example3.com, examplelocalservice"
+    BACKEND_STORE_API_ALLOW_HOSTS: ""
+    BACKEND_THROTTLE_PRIVATE_ROUTES_BY_USER_ID: "TRUE"
+    BACKEND_THROTTLE_PUBLIC_ROUTES_BY_IP: "TRUE"
+    BACKEND_VALKEY_HOST: valkey
+    # -- *Replace*
+    BACKEND_VALKEY_PASSWORD: valkeypass
+    NODE_ENV: production
+
+blockml:
+  createEnvsSecret: true
+  name: blockml
+  replicas: 1
+  affinity: {}
+  image: ghcr.io/mprove-io/mprove-blockml
+  annotations: 
+    secret.reloader.stakater.com/reload: secret-blockml
+  envsSecretName: secret-blockml
+  envs:
+    IS_TELEMETRY_ENABLED: "FALSE"
+    TELEMETRY_ENDPOINT: ""
+    TELEMETRY_HYPERDX_INGEST_API_KEY: ""
+    OTEL_LOG_LEVEL: info
+    # -- *Replace*
+    BLOCKML_AES_KEY: aeskey
+    BLOCKML_VALKEY_HOST: valkey
+    # -- *Replace*
+    BLOCKML_VALKEY_PASSWORD: valkeypass
+    BLOCKML_CONCURRENCY_LIMIT: 0
+    BLOCKML_COPY_LOGS_TO_MODELS: "FALSE"
+    BLOCKML_DATA: /root/mprove_data/blockml-data
+    BLOCKML_ENV: PROD
+    BLOCKML_LOGS_PATH: /root/mprove_data/blockml-logs
+    BLOCKML_LOG_FUNC: ALL
+    BLOCKML_LOG_IO: "FALSE"
+    BLOCKML_LOG_IS_JSON: "TRUE"
+    BLOCKML_LOG_RESPONSE_ERROR: "FALSE"
+    BLOCKML_LOG_RESPONSE_OK: "FALSE"
+    # BLOCKML_TESTS_DWH_POSTGRES_DATABASE_NAME: p_db
+    # BLOCKML_TESTS_DWH_POSTGRES_HOST: dwh-postgres
+    # BLOCKML_TESTS_DWH_POSTGRES_USERNAME: dwh_postgres_read_user
+    # BLOCKML_TESTS_DWH_POSTGRES_PASSWORD: dwhPostgresReadPass
+    # BLOCKML_TESTS_DWH_POSTGRES_PORT: dwhpostgressport
+    # BLOCKML_TESTS_DWH_POSTGRES_USERNAME: dwhpostgresuser
+    NODE_ENV: production
+
+disk:
+  createEnvsSecret: true
+  image: ghcr.io/mprove-io/mprove-disk
+  annotations: 
+    secret.reloader.stakater.com/reload: secret-disk
+  name: disk
+  affinity: {}
+  pv:
+    enabled: false
+    nodeAffinity: {}
+  pvcLabels: {}
+  storage: 10Gi
+  storageClassName: ''
+  envsSecretName: secret-disk
+  envs:
+    IS_TELEMETRY_ENABLED: "FALSE"
+    TELEMETRY_ENDPOINT: ""
+    TELEMETRY_HYPERDX_INGEST_API_KEY: ""
+    OTEL_LOG_LEVEL: info
+    # -- *Replace*
+    DISK_AES_KEY: aeskey
+    DISK_SHARD: shard-0
+    DISK_CONCURRENCY: 1
+    DISK_VALKEY_HOST: valkey
+    # -- *Replace*
+    DISK_VALKEY_PASSWORD: valkeypass
+    DISK_ENV: PROD
+    DISK_LOG_IS_JSON: "TRUE"
+    DISK_LOG_RESPONSE_ERROR: "FALSE"
+    DISK_LOG_RESPONSE_OK: "FALSE"
+    DISK_ORGANIZATIONS_PATH: /root/mprove_data/organizations
+    NODE_ENV: production
 
 front:
   image: ghcr.io/mprove-io/mprove-front
   name: front
   replicas: 1
-
-disk:
-  image: ghcr.io/mprove-io/mprove-disk
-  name: disk
-  pvcLabels: {}  
-  storage: 5Gi
-  envsSecretName: disk-envs
-  createEnvsSecret: true
-  envs:
-    NODE_ENV: production
-    DISK_ENV: PROD
-    DISK_ORGANIZATIONS_PATH: /root/mprove_data/organizations
-    DISK_RABBIT_PROTOCOL: amqp
-    DISK_RABBIT_USER: rabbituser
-    DISK_RABBIT_PASS: rabbitpass
-    DISK_RABBIT_HOST: rabbit
-    DISK_RABBIT_PORT: 5672
-    DISK_LOG_IS_JSON: 'TRUE'
-    DISK_LOG_RESPONSE_ERROR: 'FALSE'
-    DISK_LOG_RESPONSE_OK: 'FALSE'
-
-blockmlSingle:
-  name: blockml-single
-  replicas: 1
-
-blockmlCommon:  
-  image: ghcr.io/mprove-io/mprove-blockml
-  envsSecretName: blockml-common-envs
-  createEnvsSecret: true
-  envs:
-    NODE_ENV: production
-    BLOCKML_ENV: PROD
-    BLOCKML_RABBIT_PROTOCOL: amqp
-    BLOCKML_RABBIT_USER: rabbituser
-    BLOCKML_RABBIT_PASS: rabbitpass
-    BLOCKML_RABBIT_HOST: rabbit
-    BLOCKML_RABBIT_PORT: 5672
-    BLOCKML_LOG_IO: 'FALSE'
-    BLOCKML_LOG_FUNC: ALL
-    BLOCKML_COPY_LOGS_TO_MODELS: 'FALSE'
-    BLOCKML_LOGS_PATH: /root/mprove_data/blockml-logs
-    BLOCKML_IS_SINGLE: 'FALSE'
-    BLOCKML_IS_MAIN: 'FALSE'
-    BLOCKML_IS_WORKER: 'FALSE'
-    BLOCKML_CONCURRENCY_LIMIT: 0
-    BLOCKML_LOG_IS_JSON: 'TRUE'
-    BLOCKML_LOG_RESPONSE_ERROR: 'FALSE'
-    BLOCKML_LOG_RESPONSE_OK: 'FALSE'
-
-backend:
-  name: backend
-  replicas: 1  
-
-backendScheduler:
-  name: backend-scheduler
-
-backendCommon:  
-  image: ghcr.io/mprove-io/mprove-backend 
-  envsSecretName: backend-common-envs  
-  secretFilesSecretName: backend-common-secret-files
-  createEnvsSecret: true
-  createSecretFilesSecret: true
-  firstProjectBigqueryCredentials: |
-    {}
-  firstProjectRemotePrivateKey: |
-    ''
-  firstProjectRemotePublicKey: |
-    ''        
-  envs:
-    NODE_ENV: production
-    BACKEND_ENV: PROD
-    BACKEND_MYSQL_DATABASE: mprovedb
-    BACKEND_MYSQL_PASSWORD: mysqlpass
-    BACKEND_MYSQL_HOST: db
-    BACKEND_MYSQL_PORT: 3306
-    BACKEND_MYSQL_USERNAME: root
-    BACKEND_RABBIT_PROTOCOL: amqp
-    BACKEND_RABBIT_USER: rabbituser
-    BACKEND_RABBIT_PASS: rabbitpass
-    BACKEND_RABBIT_HOST: rabbit
-    BACKEND_RABBIT_PORT: 5672
-    BACKEND_JWT_SECRET: jwtsecret
-    BACKEND_SPECIAL_KEY:
-    BACKEND_ALLOW_TEST_ROUTES: 'FALSE'
-    BACKEND_FIRST_USER_EMAIL: real-email@example.com
-    BACKEND_FIRST_USER_PASSWORD: userpass
-    BACKEND_FIRST_ORG_ID: AWNCAHWLFQTQJYCH3ZSE
-    BACKEND_FIRST_PROJECT_ID: DXYE72ODCP5LWPWH2EXQ
-    BACKEND_FIRST_PROJECT_REMOTE_TYPE: Managed
-    BACKEND_FIRST_PROJECT_GIT_URL:
-    BACKEND_FIRST_PROJECT_PRIVATE_KEY_PATH: secrets/first-project-remote-private-key.pem
-    BACKEND_FIRST_PROJECT_PUBLIC_KEY_PATH: secrets/first-project-remote-public-key.pem
-    BACKEND_FIRST_PROJECT_SEED_CONNECTIONS: 'TRUE'
-    BACKEND_FIRST_PROJECT_DWH_POSTGRES_PASSWORD: postgrespass
-    BACKEND_FIRST_PROJECT_DWH_CLICKHOUSE_PASSWORD: clickhousepass
-    BACKEND_FIRST_PROJECT_DWH_BIGQUERY_CREDENTIALS_PATH: secrets/first-project-bigquery-credentials.json
-    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_ACCOUNT: realSnowflakeAccount
-    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_WAREHOUSE: realSnowflakeWarehouse
-    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_USERNAME: realSnowflakeUsername
-    BACKEND_FIRST_PROJECT_DWH_SNOWFLAKE_PASSWORD: realSnowflakePassword
-    BACKEND_ALLOW_USERS_TO_CREATE_ORGANIZATIONS: 'FALSE'
-    BACKEND_REGISTER_ONLY_INVITED_USERS: 'TRUE'
-    BACKEND_HOST_URL: https://real-host.example.com
-    BACKEND_SEND_EMAIL_FROM_NAME: My Company Name
-    BACKEND_SEND_EMAIL_FROM_ADDRESS: no-reply@example.com
-    BACKEND_EMAIL_TRANSPORT: SMTP
-    BACKEND_MAILGUN_ACTIVE_API_KEY:
-    BACKEND_MAILGUN_DOMAIN:
-    BACKEND_SMTP_HOST: real-smtp.example.com
-    BACKEND_SMTP_PORT: 465
-    BACKEND_SMTP_SECURE: 'TRUE'
-    BACKEND_SMTP_AUTH_USER: realSmtpUser
-    BACKEND_SMTP_AUTH_PASSWORD: realSmtpPassword
-    BACKEND_LOG_IS_JSON: 'TRUE'
-    BACKEND_LOG_RESPONSE_ERROR: 'FALSE'
-    BACKEND_LOG_RESPONSE_OK: 'FALSE'
+  affinity: {}
 
 dwhPostgres:
-  enabled: true
+  enabled: false
+  createEnvsSecret: false
   image: ghcr.io/mprove-io/mprove-dwh-postgres
+  tag: 18.1-m3
+  annotations: 
+    secret.reloader.stakater.com/reload: secret-dwh-postgres
   name: dwh-postgres
+  affinity: {}
   storage: 2Gi
-  envsSecretName: dwh-postgres-envs
-  createEnvsSecret: true
+  storageClassName: ""
+  envsSecretName: secret-dwh-postgres
   envs:
-    PGDATA: /var/lib/postgresql/data/pgdata
-    POSTGRES_PASSWORD: postgrespass
-
-dwhClickhouse:
-  enabled: true
-  image: ghcr.io/mprove-io/mprove-dwh-clickhouse
-  name: dwh-clickhouse
-  storage: 2Gi
-  storageLogs: 2Gi
-  envsSecretName: dwh-clickhouse-envs
-  createEnvsSecret: true
-  envs:
-    CLICKHOUSE_DB: c_db
-    CLICKHOUSE_USER: c_user
-    CLICKHOUSE_PASSWORD: clickhousepass
-
+    PGPORT: 5436
+    READ_USER: dwh_postgres_read_user
+    # -- *Replace*
+    READ_PASSWORD: dwhPostgresReadPass
+    # -- *Replace*
+    POSTGRES_PASSWORD: dwhPostgresPass

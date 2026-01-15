@@ -1,9 +1,28 @@
+{{- if .Values.disk.pv.enabled -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: disk-pv
+  labels:
+    app: {{ .Values.disk.name }}
+spec:
+  nodeAffinity:
+    {{- toYaml .Values.disk.pv.nodeAffinity | nindent 4 }}
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+---
+{{- end }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ .Values.disk.name }}
   labels:
     app: {{ .Values.disk.name }}
+  annotations:
+    {{- toYaml .Values.disk.annotations | nindent 4 }}
 spec:
   serviceName: {{ .Values.disk.name }}
   selector:
@@ -14,17 +33,20 @@ spec:
       labels:
         app: {{ .Values.disk.name }}
     spec:
+{{- if .Values.imagePullSecrets.enabled }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets.name }}
+{{- end }}
+      affinity: 
+        {{- toYaml .Values.disk.affinity | nindent 8 }}
       containers:
       - name: {{ .Values.disk.name }}
         image: {{ .Values.disk.image }}:{{ .Chart.AppVersion }}
         command: 
-        - sh
-        - '-c'
-        - >
-          until wget http://$DISK_RABBIT_USER:$DISK_RABBIT_PASS@$DISK_RABBIT_HOST:15672/api/aliveness-test/%2F > /dev/null 2>&1; 
-          do echo waiting for rabbit ...; sleep 10; done && 
-          echo rabbit is ready &&        
-          node dist/apps/disk/main.js        
+          - sh
+          - '-c'
+          - >
+            node dist/apps/disk/main.js        
         envFrom:
         - secretRef:
             name: {{ .Values.disk.envsSecretName }}    
@@ -35,7 +57,6 @@ spec:
       - name: disk-persistent-storage
         persistentVolumeClaim:
           claimName: disk-pvc
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -47,9 +68,13 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}  
 spec:
+  storageClassName: {{ .Values.disk.storageClassName }}
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: {{ .Values.disk.storage }}
+
+
+
 

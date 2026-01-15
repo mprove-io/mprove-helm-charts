@@ -1,0 +1,54 @@
+# All values in this file need to be replaced by your values
+# Search for values before replacing them to find places that must point to the same value
+
+# If you need ingress, uncomment clusterIssuer (lets-encrypt) and ingressMprove lines
+
+# clusterIssuer:
+#   enabled: true
+#   acmeEmail: real-email@example.com
+
+# ingressMprove:
+#   enabled: true  
+#   host: real-host.example.com
+#   tlsSecretName: real-host.example.com-tls
+
+db:  
+  envs:
+    POSTGRES_PASSWORD: dbuserpass
+
+valkey:
+  envs:
+    VALKEY_PASSWORD: valkeypass
+
+calcPostgres:
+  envs:
+    POSTGRES_PASSWORD: calcPostgresPass  
+   
+backendCommon:
+  envs:
+    # command to create AES key value (must end with "="): "openssl rand -base64 32 | tr -d '\n'"
+    BACKEND_AES_KEY: 'aeskey'
+    BACKEND_CALC_POSTGRES_PASSWORD: calcpostgrespass
+    BACKEND_HOST_URL: https://real-host.example.com
+    BACKEND_JWT_SECRET: jwtsecret
+    BACKEND_MPROVE_ADMIN_EMAIL: real-email@example.com
+    BACKEND_MPROVE_ADMIN_INITIAL_PASSWORD: userpass
+    # Replace "dbuserpass". If you replace "mprove_user" or "mprove_main" - check full values.yaml for more places.
+    BACKEND_POSTGRES_DATABASE_URL: postgres://mprove_user:dbuserpass@db:5435/mprove_main
+    BACKEND_SEND_EMAIL_FROM_ADDRESS: no-reply@example.com
+    BACKEND_SEND_EMAIL_FROM_NAME: 'My Company Name'
+    BACKEND_SMTP_AUTH_PASSWORD: realSmtpPassword
+    BACKEND_SMTP_AUTH_USER: realSmtpUser
+    BACKEND_SMTP_HOST: real-smtp.example.com
+    BACKEND_SPECIAL_KEY: specialkey
+    BACKEND_VALKEY_PASSWORD: valkeypass
+
+blockml:
+  envs:
+    BLOCKML_AES_KEY: 'aeskey'
+    BLOCKML_VALKEY_PASSWORD: valkeypass
+
+disk:
+  envs:
+    DISK_AES_KEY: 'aeskey'
+    DISK_VALKEY_PASSWORD: valkeypass

@@ -1,6 +1,6 @@
 apiVersion: v2
 name: mprove
-description: Mprove Helm chart for Kubernetes
+description: Mprove Helm Chart
 type: application
-version: 0.0.35
-appVersion: "8.3.1"
+version: 11.0.90
+appVersion: "11.0.90"  

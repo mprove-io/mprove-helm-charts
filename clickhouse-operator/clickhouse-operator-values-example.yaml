@@ -1,0 +1,8 @@
+nodeSelector:
+  node-for: "common"
+configs:
+  files:
+    config.yaml:
+      watch:
+        namespaces:
+          - clickhouse-cs

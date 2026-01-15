@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.blockml.name }}
+  labels:
+    app: {{ .Values.blockml.name }}
+  annotations:
+    {{- toYaml .Values.blockml.annotations | nindent 4 }}
+spec:
+  replicas: {{ .Values.blockml.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.blockml.name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.blockml.name }}
+    spec:
+{{- if .Values.imagePullSecrets.enabled }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets.name }}
+{{- end }}    
+      affinity: 
+        {{- toYaml .Values.blockml.affinity | nindent 8 }}
+      containers:
+      - name: {{ .Values.blockml.name }}
+        image: {{ .Values.blockml.image }}:{{ .Chart.AppVersion }}
+        command: 
+        - sh
+        - '-c'
+        - >
+          node dist/apps/blockml/main.js
+        envFrom:
+        - secretRef:
+            name: {{ .Values.blockml.envsSecretName }}

@@ -1,13 +1,22 @@
 # 
+_charts/
+_clusters/
+_kubeconfigs/
+_nogit/
 nogit/
+_sc/
+_templates/
+_values/
 values/
-
 values-mprove.yaml
 
 # env
 *.env
 .envrc
-credentials-velero
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.example.json
 
 # System Files
 .DS_Store
@@ -16,14 +25,6 @@ Thumbs.db
 # Helm
 *.tgz
 Chart.lock
-
-# compiled output
-/dist
-/tmp
-/out-tsc
-
-# dependencies
-/node_modules
 
 # IDEs and editors
 /.idea
@@ -34,29 +35,8 @@ Chart.lock
 .settings/
 *.sublime-workspace
 
-# IDE - VSCode
-.vscode/*
-!.vscode/cspell-words.txt
-!.vscode/extensions.json
-!.vscode/tasks.json
-!.vscode/launch.json
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
 # Logs
 logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 
 

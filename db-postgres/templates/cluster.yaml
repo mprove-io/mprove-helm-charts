@@ -1,0 +1,53 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: db-postgres-cluster
+  namespace: db-postgres
+  labels: {{- toYaml .Values.cluster.metadata.labels | nindent 4 }}
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.0-standard-trixie
+  instances: {{ .Values.cluster.spec.instances }}
+  {{- if .Values.cluster.spec.affinity }}
+  affinity: {{- toYaml .Values.cluster.spec.affinity | nindent 4 }}
+  {{- end }}
+  managed:
+    roles: {{- toYaml .Values.cluster.spec.managed.roles | nindent 4 }}
+  storage:
+    size: {{ .Values.cluster.spec.storage.size }}
+    storageClass: {{ .Values.cluster.spec.storage.storageClass }}
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: secret-db-postgres-cluster-super-user
+  {{- if .Values.cluster.spec.bootstrap }}
+  bootstrap: {{- toYaml .Values.cluster.spec.bootstrap | nindent 4 }}
+  {{- end }}
+  {{- if (and .Values.cluster.spec.externalClusters (gt (len .Values.cluster.spec.externalClusters) 0)) }}
+  externalClusters: {{- toYaml .Values.cluster.spec.externalClusters | nindent 2 }}
+  {{- end }}
+  {{- if (and .Values.cluster.spec.plugins (gt (len .Values.cluster.spec.plugins) 0)) }}
+  plugins: {{- toYaml .Values.cluster.spec.plugins | nindent 2 }}
+  {{- end }}
+  # imagePullPolicy: IfNotPresent
+  # imagePullSecrets:
+  #   - name: private_registry_access
+  # startDelay: 300
+  # stopDelay: 300
+  # primaryUpdateStrategy: unsupervised
+  # postgresql:
+  #   parameters:
+  #     shared_buffers: 256MB
+  #     pg_stat_statements.max: '10000'
+  #     pg_stat_statements.track: all
+  #     auto_explain.log_min_duration: '10s'
+  #   pg_hba:
+  #     - host all all 10.244.0.0/16 md5
+  # resources:
+  #   requests:
+  #     memory: "512Mi"
+  #     cpu: "1"
+  #   limits:
+  #     memory: "1Gi"
+  #     cpu: "2"
+  # nodeMaintenanceWindow:
+  #   inProgress: false
+  #   reusePVC: false

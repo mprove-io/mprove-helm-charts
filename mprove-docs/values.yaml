@@ -1,0 +1,13 @@
+imagePullSecrets:
+  enabled: false
+  name: secretname
+
+docs:
+  createEnvsSecret: true
+  name: docs
+  replicas: 1
+  affinity: {}
+  image: ghcr.io/mprove-io/mprove-docs
+  envsSecretName: secret-docs
+  envs:
+    NODE_ENV: production

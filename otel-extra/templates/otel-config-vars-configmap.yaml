@@ -1,0 +1,9 @@
+{{- if .Values.createConfigVarsConfigmap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-config-vars
+  namespace: otel
+data:
+  YOUR_OTEL_COLLECTOR_ENDPOINT: {{ .Values.YOUR_OTEL_COLLECTOR_ENDPOINT }}
+{{- end }}

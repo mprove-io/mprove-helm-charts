@@ -1,0 +1,75 @@
+cluster:
+  metadata:
+    labels:
+      cnpg.io/reload: "true"
+  spec:
+    instances: 1
+    storage:
+      size: 10Gi
+      storageClass: local-path
+    affinity:
+      nodeSelector:
+        node-for: "db"
+    managed:
+      roles:
+      - name: v_user
+        ensure: present
+        login: true
+        superuser: false
+        passwordSecret:
+          name: secret-db-postgres-cluster-view-user
+        inRoles:
+          - pg_read_all_data
+    bootstrap:
+      initdb:
+        database: mprove_main
+        owner: mprove_user
+        secret:
+          name: secret-db-postgres-cluster-app-user
+        # import:
+        #   type: microservice
+        #   databases:
+        #     - mprove_main
+        #   source:
+        #     externalCluster: cluster-r1
+    externalClusters: null
+    # externalClusters:
+    # - name: cluster-r1
+    #   connectionParameters:
+    #     host: db-recovery.databasus.svc.cluster.local
+    #     user: mprove_recovery_user
+    #     dbname: mprove_main
+    #   password:
+    #     name: secret-db-postgres-cluster-super-user
+    #     key: recoveryPassword
+    backup: null
+    # backup:
+    #   barmanObjectStore:
+    #     destinationPath: s3://cluster-example-full-backup/
+    #     endpointURL: https://custom-endpoint:1234
+    plugins: null
+    # plugins:
+    #   - name: barman-cloud.cloudnative-pg.io
+    #     isWALArchiver: true
+    #     parameters:
+    #       barmanObjectName: s3-store
+objectStore:
+  enabled: false
+  destinationPath: s3://cluster-example-full-backup/
+  endpointURL: https://custom-endpoint:1234
+scheduledBackup:
+  enabled: false
+secretDbPostgresAppUser:
+  envs:
+    username: mprove_user
+    password: appUserPassword
+secretDbPostgresViewUser:
+  envs:
+    username: v_user
+    password: viewUserPassword
+secretDbPostgresSuperUser:
+  envs:
+    username: postgres
+    password: superuserPassword
+    recoveryPassword: recoveryPassword
+

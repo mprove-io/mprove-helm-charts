@@ -1,0 +1,5 @@
+createHyperdxSecret: true
+hyperdxApiKey: <>
+
+createConfigVarsConfigmap: true
+YOUR_OTEL_COLLECTOR_ENDPOINT: http://clickstack-otel-collector.clickstack.svc.cluster.local:4318

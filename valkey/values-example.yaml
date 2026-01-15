@@ -1,0 +1,17 @@
+auth:
+  enabled: true
+  usersExistingSecret: "secret-valkey-users"
+  aclUsers: 
+    default:
+      permissions: "~* &* +@all"
+      passwordKey: "VALKEY_DEFAULT_USER_PASSWORD"
+    read-user:
+      permissions: "~* -@all +@read +ping +info"
+      passwordKey: "VALKEY_READ_USER_PASSWORD"
+
+  # aclConfig: ""
+
+nodeSelector:
+  node-for: common
+
+

@@ -1,9 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.backend.name }}
+  labels:
+    app: {{ .Values.backend.name }}
+spec:
+  selector:
+    app: {{ .Values.backend.name }}
+  type: ClusterIP
+  ports:
+  - port: 3000
+    targetPort: 3000
+    name: {{ .Values.backend.name }} 
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name:  {{ .Values.backend.name }}
   labels:
     app:  {{ .Values.backend.name }}
+  annotations:
+    {{- toYaml .Values.backendCommon.annotations | nindent 4 }}
 spec:
   replicas: {{ .Values.backend.replicas }}
   selector:
@@ -16,6 +33,12 @@ spec:
       labels:
         app:  {{ .Values.backend.name }}
     spec:
+{{- if .Values.imagePullSecrets.enabled }}
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets.name }}
+{{- end }}    
+      affinity: 
+        {{- toYaml .Values.backend.affinity | nindent 8 }}
       containers:
       - name: {{ .Values.backend.name }}
         image: {{ .Values.backendCommon.image }}:{{ .Chart.AppVersion }}
@@ -23,36 +46,20 @@ spec:
         - sh
         - '-c'
         - >
-          until wget http://$BACKEND_RABBIT_USER:$BACKEND_RABBIT_PASS@$BACKEND_RABBIT_HOST:15672/api/aliveness-test/%2F > /dev/null 2>&1; 
-          do echo waiting for rabbit ...; sleep 10; done && 
-          echo rabbit is ready &&
-          until yarn typeorm query "SELECT 1" -d apps/backend/src/typeorm-datasource.ts > /dev/null 2>&1; 
+          until pnpm check:db > /dev/null 2>&1; 
           do echo waiting for db ...; sleep 10; done && 
           echo db is ready &&        
           node dist/apps/backend/main.js
         env:
+        - name: MPROVE_RELEASE_TAG
+          value: {{ .Chart.AppVersion }}
         - name: BACKEND_IS_SCHEDULER
           value: 'FALSE'
-        - name: CLI_TYPEORM_HOST
+        - name: CLI_DRIZZLE_POSTGRES_DATABASE_URL
           valueFrom:
             secretKeyRef:
               name: {{ .Values.backendCommon.envsSecretName }}
-              key: BACKEND_MYSQL_HOST
-        - name: CLI_TYPEORM_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.backendCommon.envsSecretName }}
-              key: BACKEND_MYSQL_USERNAME
-        - name: CLI_TYPEORM_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.backendCommon.envsSecretName }}
-              key: BACKEND_MYSQL_PASSWORD 
-        - name: CLI_TYPEORM_DATABASE
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.backendCommon.envsSecretName }}
-              key: BACKEND_MYSQL_DATABASE          
+              key: BACKEND_POSTGRES_DATABASE_URL
         envFrom:
         - secretRef:
             name: {{ .Values.backendCommon.envsSecretName }}    
@@ -60,18 +67,3 @@ spec:
         - containerPort: 3000
           name: backend
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.backend.name }}
-  labels:
-    app: {{ .Values.backend.name }}
-spec:
-  selector:
-    app: {{ .Values.backend.name }}
-  type: NodePort
-  ports:
-  - port: 3000
-    targetPort: 3000
-    name: {{ .Values.backend.name }} 

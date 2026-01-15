@@ -1,0 +1,105 @@
+# Default values for databasus 2.22.1
+
+# Image configuration
+image:
+  repository: databasus/databasus
+  tag: null
+  pullPolicy: Always
+
+# StatefulSet configuration
+replicaCount: 1
+
+# RootCA setup, need name of secret in same namespace
+customRootCA: ""
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 4005          # Service port
+  targetPort: 4005    # Internal container port
+  # Headless service for StatefulSet
+  headless:
+    enabled: true
+
+# Resource limits and requests
+resources:
+  requests:
+    memory: "1Gi"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+
+# Persistent storage configuration
+persistence:
+  enabled: true
+  # Storage class name. Leave empty to use cluster default.
+  # Examples: "longhorn", "standard", "gp2", etc.
+  storageClassName: ""
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  # Mount path in container
+  mountPath: /databasus-data
+
+# Ingress configuration (disabled by default - using LoadBalancer instead)
+ingress:
+  enabled: false
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: databasus.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# HTTPRoute configuration for Gateway API
+route:
+  enabled: false
+  apiVersion: gateway.networking.k8s.io/v1
+  kind: HTTPRoute
+  annotations: {}
+  hostnames:
+  - databasus.example.com
+  parentRefs: []
+  filters: []
+  matches: []
+  timeouts: {}
+
+# Health checks configuration
+# Note: The application only has /api/v1/system/health endpoint
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: /api/v1/system/health
+    port: 4005
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /api/v1/system/health
+    port: 4005
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+# StatefulSet update strategy
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    partition: 0
+
+# Pod labels and annotations
+podLabels: {}
+podAnnotations: {}
+
+# Node selector, tolerations and affinity
+nodeSelector: {}
+tolerations: []
+affinity: {}
+

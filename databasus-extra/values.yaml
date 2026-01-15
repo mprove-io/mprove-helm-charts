@@ -1,0 +1,17 @@
+recovery:
+  enabled: true
+  createEnvsSecret: true
+  image: postgres
+  tag: 18.1
+  annotations: 
+    secret.reloader.stakater.com/reload: secret-db-recovery
+  name: db-recovery
+  affinity: {}
+  pvcLabels: {}
+  storage: 10Gi
+  storageClassName: "local-path"
+  envsSecretName: secret-db-recovery
+  envs:
+    POSTGRES_DB: mprove_main
+    POSTGRES_USER: mprove_recovery_user
+    POSTGRES_PASSWORD: recoveryuserpass

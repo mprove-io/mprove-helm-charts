@@ -1,0 +1,27 @@
+{{- if .Values.ingressDatabasus.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: databasus
+  namespace: databasus
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/tls-acme: "true" 
+spec:
+  ingressClassName: nginx
+  tls: 
+  - hosts:
+    - {{ .Values.ingressDatabasus.host }}
+    secretName: {{ .Values.gate.tlsSecretName }}
+  rules:
+    - host: {{ .Values.ingressDatabasus.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: databasus-service
+                port:
+                  number: 4005
+{{- end }} 

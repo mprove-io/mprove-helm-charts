@@ -1,0 +1,23 @@
+{{- if .Values.objectStore.enabled -}}
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: s3-store
+  namespace: db-postgres
+spec:
+  configuration:
+    destinationPath: {{ .Values.objectStore.destinationPath }}
+    endpointURL: {{ .Values.objectStore.endpointURL }}
+    s3Credentials:
+      accessKeyId:
+        name: secret-db-postgres-cluster-barman-backup
+        key: BARMAN_BACKUP_DB_S3_ACCESS_KEY_ID
+      secretAccessKey:
+        name: secret-db-postgres-cluster-barman-backup
+        key: BARMAN_BACKUP_DB_S3_SECRET_ACCESS_KEY
+    data:
+      compression: gzip
+    wal:
+      compression: gzip
+  retentionPolicy: "30d"
+{{- end }} 

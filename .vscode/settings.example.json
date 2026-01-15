@@ -1,0 +1,59 @@
+{
+  "workbench.settings.useSplitJSON": false,
+  "workbench.tree.enableStickyScroll": false,
+  "editor.stickyScroll.enabled": false,
+  "yaml.yamlVersion": "1.2",
+  "yaml.validate": false,
+  "yaml.hover": true,
+  "yaml.completion": true,
+  "yaml.style.flowMapping": "allow",
+  "yaml.style.flowSequence": "allow",
+  "yaml.format.enable": true,
+  "yaml.format.singleQuote": false,
+  "yaml.format.bracketSpacing": true,
+  "yaml.format.printWidth": 100,
+  "yaml.format.proseWrap": "preserve",
+  "yaml.format.trailingComma": false,
+  "yaml.keyOrdering": false,
+  "yaml.schemaStore.enable": false,
+  "yaml.customTags": [
+    "!Ref scalar",
+    "!Sub scalar",
+    "!GetAtt scalar",
+    "!Equals sequence",
+    "!If sequence",
+    "!Not sequence",
+    "!Or sequence",
+    "!And sequence",
+    "!Join sequence",
+    "!Split sequence",
+    "!Select sequence",
+    "!FindInMap sequence",
+    "!Condition scalar",
+    "!Base64 scalar",
+    "{{/* */}}",
+    "{{- -}}"
+  ],
+  "yaml.maxItemsComputed": 5000,
+  "yaml.disableDefaultProperties": false,
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    }
+  },
+  "files.associations": {
+    "*.env": "properties"
+  },
+  "editor.wordWrap": "off",
+  "[markdown]": {
+    "editor.wordWrap": "off",
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  }
+}
