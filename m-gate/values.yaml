@@ -1,3 +1,7 @@
+imagePullSecrets:
+  enabled: false
+  name: secretname
+
 gate:
   acmeEmail: real-email@example.com
   tlsSecretName: host.example.com-tls
@@ -6,9 +10,11 @@ ingressBox:
   host: host.example.com
 ingressMprove:
   enabled: false  
+  isMaintenance: false  
   host: host.example.com
 ingressMprovePlay:
   enabled: false  
+  isMaintenance: false  
   host: host.example.com
 ingressMproveDocs:
   enabled: false  
@@ -19,17 +25,10 @@ ingressClickstack:
 ingressDatabasus:
   enabled: false  
   host: host.example.com
-# routeJitsuIngest:
-#   enabled: false  
-#   host: host.example.com
-# routeJitsuUi:
-#   enabled: false
-#   host: host.example.com
-# routeSignozIngest:
-#   enabled: false  
-#   host: host.example.com
-#   inAuthTokenA: intokenA
-#   inAuthTokenB: intokenB
-# routeSignozUi:
-#   enabled: false
-#   host: host.example.com
+
+maintenance:
+  image: ghcr.io/mprove-io/mprove-maintenance
+  tag: 1.0.1
+  name: maintenance
+  replicas: 1
+  affinity: {}

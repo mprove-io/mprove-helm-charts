@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mprove-play
-  namespace: mprove-play
+  namespace: {{ ternary "default" "mprove-play" .Values.ingressMprovePlay.isMaintenance }}
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     kubernetes.io/tls-acme: "true" 
@@ -17,6 +17,7 @@ spec:
     - host: {{ .Values.ingressMprovePlay.host }}
       http:
         paths:
+{{- if not .Values.ingressMprovePlay.isMaintenance }}
           - path: /api
             pathType: Prefix
             backend:
@@ -24,11 +25,12 @@ spec:
                 name: backend
                 port:
                   number: 3000
+{{- end }}
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: front
+                name: {{ ternary "maintenance" "front" .Values.ingressMprovePlay.isMaintenance }}
                 port:
                   number: 80
 {{- end }} 
