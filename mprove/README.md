@@ -1,6 +1,6 @@
 # mprove
 
-![Version: 11.0.90](https://img.shields.io/badge/Version-11.0.90-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 11.0.90](https://img.shields.io/badge/AppVersion-11.0.90-informational?style=flat-square)
+![Version: 11.0.98](https://img.shields.io/badge/Version-11.0.98-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 11.0.98](https://img.shields.io/badge/AppVersion-11.0.98-informational?style=flat-square)
 
 Mprove Helm Chart
 
@@ -71,6 +71,7 @@ Mprove Helm Chart
 | backendCommon.extra.demoProjectGoogleApiCredentials | string | `"{}\n"` |  |
 | backendCommon.extra.demoProjectRemotePrivateKeyEncrypted | string | `"''\n"` |  |
 | backendCommon.extra.demoProjectRemotePublicKey | string | `""` |  |
+| backendCommon.envs.TURBO_TELEMETRY_DISABLED | int | `1` |  |
 | backendCommon.envs.IS_TELEMETRY_ENABLED | string | `"FALSE"` |  |
 | backendCommon.envs.TELEMETRY_ENDPOINT | string | `""` |  |
 | backendCommon.envs.TELEMETRY_HYPERDX_INGEST_API_KEY | string | `""` |  |
@@ -129,6 +130,7 @@ Mprove Helm Chart
 | blockml.image | string | `"ghcr.io/mprove-io/mprove-blockml"` |  |
 | blockml.annotations."secret.reloader.stakater.com/reload" | string | `"secret-blockml"` |  |
 | blockml.envsSecretName | string | `"secret-blockml"` |  |
+| blockml.envs.TURBO_TELEMETRY_DISABLED | int | `1` |  |
 | blockml.envs.IS_TELEMETRY_ENABLED | string | `"FALSE"` |  |
 | blockml.envs.TELEMETRY_ENDPOINT | string | `""` |  |
 | blockml.envs.TELEMETRY_HYPERDX_INGEST_API_KEY | string | `""` |  |
@@ -158,6 +160,7 @@ Mprove Helm Chart
 | disk.storage | string | `"10Gi"` |  |
 | disk.storageClassName | string | `""` |  |
 | disk.envsSecretName | string | `"secret-disk"` |  |
+| disk.envs.TURBO_TELEMETRY_DISABLED | int | `1` |  |
 | disk.envs.IS_TELEMETRY_ENABLED | string | `"FALSE"` |  |
 | disk.envs.TELEMETRY_ENDPOINT | string | `""` |  |
 | disk.envs.TELEMETRY_HYPERDX_INGEST_API_KEY | string | `""` |  |

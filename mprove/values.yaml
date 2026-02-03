@@ -96,6 +96,7 @@ backendCommon:
       ''
     demoProjectRemotePublicKey: ''
   envs:
+    TURBO_TELEMETRY_DISABLED: 1
     IS_TELEMETRY_ENABLED: "FALSE"
     TELEMETRY_ENDPOINT: ""
     TELEMETRY_HYPERDX_INGEST_API_KEY: ""
@@ -191,6 +192,7 @@ blockml:
     secret.reloader.stakater.com/reload: secret-blockml
   envsSecretName: secret-blockml
   envs:
+    TURBO_TELEMETRY_DISABLED: 1
     IS_TELEMETRY_ENABLED: "FALSE"
     TELEMETRY_ENDPOINT: ""
     TELEMETRY_HYPERDX_INGEST_API_KEY: ""
@@ -233,6 +235,7 @@ disk:
   storageClassName: ''
   envsSecretName: secret-disk
   envs:
+    TURBO_TELEMETRY_DISABLED: 1
     IS_TELEMETRY_ENABLED: "FALSE"
     TELEMETRY_ENDPOINT: ""
     TELEMETRY_HYPERDX_INGEST_API_KEY: ""

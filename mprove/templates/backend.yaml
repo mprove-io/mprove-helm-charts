@@ -49,7 +49,7 @@ spec:
           until pnpm check:db > /dev/null 2>&1; 
           do echo waiting for db ...; sleep 10; done && 
           echo db is ready &&        
-          node dist/apps/backend/main.js
+          node --enable-source-maps apps/backend/dist/main.js
         env:
         - name: MPROVE_RELEASE_TAG
           value: {{ .Chart.AppVersion }}

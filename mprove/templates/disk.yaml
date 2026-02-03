@@ -46,7 +46,7 @@ spec:
           - sh
           - '-c'
           - >
-            node dist/apps/disk/main.js        
+            node --enable-source-maps apps/disk/dist/main.js
         envFrom:
         - secretRef:
             name: {{ .Values.disk.envsSecretName }}    

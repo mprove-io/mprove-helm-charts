@@ -31,7 +31,7 @@ spec:
         - sh
         - '-c'
         - >
-          node dist/apps/blockml/main.js
+          node --enable-source-maps apps/blockml/dist/main.js
         envFrom:
         - secretRef:
             name: {{ .Values.blockml.envsSecretName }}
