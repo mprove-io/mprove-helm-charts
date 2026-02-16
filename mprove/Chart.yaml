@@ -2,5 +2,5 @@ apiVersion: v2
 name: mprove
 description: Mprove Helm Chart
 type: application
-version: 11.0.98
-appVersion: "11.0.98"
+version: 11.0.99
+appVersion: "11.0.99"
