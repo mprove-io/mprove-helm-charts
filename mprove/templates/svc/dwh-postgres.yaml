@@ -24,7 +24,18 @@ spec:
   type: ClusterIP
   ports:
   - port: 5436
-    targetPort: 5436 
+    targetPort: 5436
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.dwhPostgres.name }}-pg-hba
+data:
+  pg_hba.conf: |
+    # TYPE  DATABASE  USER  ADDRESS      METHOD
+    local   all       all                trust
+    hostssl all       all   0.0.0.0/0    scram-sha-256
+    hostssl all       all   ::/0         scram-sha-256
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -47,30 +58,63 @@ spec:
 {{- if .Values.imagePullSecrets.enabled }}
       imagePullSecrets:
       - name: {{ .Values.imagePullSecrets.name }}
-{{- end }}    
-      affinity: 
+{{- end }}
+      affinity:
         {{- toYaml .Values.dwhPostgres.affinity | nindent 8 }}
+      initContainers:
+      - name: generate-ssl-certs
+        image: {{ .Values.dwhPostgres.image }}:{{ .Values.dwhPostgres.tag }}
+        command:
+        - sh
+        - -c
+        - |
+          if [ ! -f /certs/server.crt ]; then
+            openssl req -new -x509 -days 36500 -nodes \
+              -out /certs/server.crt \
+              -keyout /certs/server.key \
+              -subj "/CN=dwh-postgres"
+            chown 999:999 /certs/server.crt /certs/server.key
+            chmod 600 /certs/server.key
+          fi
+        volumeMounts:
+        - name: ssl-certs
+          mountPath: /certs
       containers:
       - name: {{ .Values.dwhPostgres.name }}
         image: {{ .Values.dwhPostgres.image }}:{{ .Values.dwhPostgres.tag }}
+        args:
+        - -c
+        - ssl=on
+        - -c
+        - ssl_cert_file=/certs/server.crt
+        - -c
+        - ssl_key_file=/certs/server.key
+        - -c
+        - hba_file=/etc/postgresql/pg_hba.conf
         env:
         - name: PGDATA
           value: /var/lib/postgresql/18/docker/data
         envFrom:
         - secretRef:
-            name: {{ .Values.dwhPostgres.envsSecretName }} 
+            name: {{ .Values.dwhPostgres.envsSecretName }}
         ports:
         - containerPort: {{ .Values.dwhPostgres.envs.PGPORT }}
           name: {{ .Values.dwhPostgres.name }}
         volumeMounts:
         - name: {{ .Values.dwhPostgres.name }}-persistent-storage
           mountPath: /var/lib/postgresql/18/docker
+        - name: ssl-certs
+          mountPath: /certs
+        - name: pg-hba
+          mountPath: /etc/postgresql
       volumes:
       - name: {{ .Values.dwhPostgres.name }}-persistent-storage
         persistentVolumeClaim:
           claimName: {{ .Values.dwhPostgres.name }}-pvc
+      - name: ssl-certs
+        emptyDir: {}
+      - name: pg-hba
+        configMap:
+          name: {{ .Values.dwhPostgres.name }}-pg-hba
 ---
-{{- end }}  
-
-
- 
+{{- end }}
