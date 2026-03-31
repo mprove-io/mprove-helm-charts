@@ -111,7 +111,7 @@ backendCommon:
     BACKEND_PREV_AES_KEY_TAG: 0
     BACKEND_TOTAL_DISK_SHARDS: 1
     BACKEND_RPC_DISK_TIMEOUT_MS: 60000
-    BACKEND_RPC_BLOCKML_TIMEOUT_MS: 30000
+    BACKEND_RPC_BLOCKML_TIMEOUT_MS: 60000
     BACKEND_ALLOW_TEST_ROUTES: "FALSE"
     BACKEND_ALLOW_USERS_TO_CREATE_ORGANIZATIONS: "FALSE"
     BACKEND_CALC_POSTGRES_HOST: calc-postgres
@@ -122,6 +122,9 @@ backendCommon:
     # BACKEND_DEMO_ORG_ID: AWNCAHWLFQTQJYCH3ZSE
     # BACKEND_DEMO_PROJECT_DWH_BIGQUERY_CREDENTIALS_PATH: secrets/demo-project-bigquery-credentials.json
     # BACKEND_DEMO_PROJECT_DWH_GOOGLE_API_CREDENTIALS_PATH: secrets/demo-project-google-api-credentials.json
+    # BACKEND_DEMO_PROJECT_E2B_API_KEY:
+    # BACKEND_DEMO_PROJECT_ANTHROPIC_API_KEY:
+    # BACKEND_DEMO_PROJECT_OPENAI_API_KEY:
     # BACKEND_DEMO_PROJECT_DWH_MOTHERDUCK_TOKEN: motherducktoken
     # BACKEND_DEMO_PROJECT_DWH_POSTGRES_HOST: dwh-postgres
     # BACKEND_DEMO_PROJECT_DWH_POSTGRES_USER: dwh_postgres_read_user
@@ -137,6 +140,7 @@ backendCommon:
     BACKEND_ENV: PROD
     # -- *Replace*
     BACKEND_HOST_URL: https://real-host.example.com
+    BACKEND_SANDBOX_MPROVE_CLI_HOST: https://real-host.example.com
     BACKEND_IS_ENCRYPT_DB: "TRUE"
     BACKEND_IS_ENCRYPT_METADATA: "FALSE"
     BACKEND_IS_POSTGRES_TLS: "FALSE"
@@ -146,6 +150,7 @@ backendCommon:
     BACKEND_LOG_IS_JSON: "TRUE"
     BACKEND_LOG_RESPONSE_ERROR: "TRUE"
     BACKEND_LOG_RESPONSE_OK: "FALSE"
+    BACKEND_IS_TRACE_DRIZZLE_ENABLED: "FALSE"
     BACKEND_LOG_THROTTLE_TRACKER: "FALSE"
     # -- *Replace*
     BACKEND_MPROVE_ADMIN_EMAIL: real-email@example.com
@@ -171,6 +176,7 @@ backendCommon:
     BACKEND_SMTP_SECURE: "TRUE"
     # -- *Replace*
     BACKEND_SPECIAL_KEY: specialkey
+    BACKEND_E2B_PUBLIC_TEMPLATE: i3i4yvua9kl55j8opzpi
     # -- hostnames that resolve to internal IP are blocked by default, you can specify more hosts to block - separated by comma "example1.com, example2.com"
     BACKEND_STORE_API_BLOCK_HOSTS: ""
     # -- hostnames that resolve to internal IP are blocked by default, you can specify hosts to unblock - separated by comma "example3.com, examplelocalservice"
