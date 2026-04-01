@@ -1,6 +1,6 @@
 # mprove
 
-![Version: 11.0.101](https://img.shields.io/badge/Version-11.0.101-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 11.0.101](https://img.shields.io/badge/AppVersion-11.0.101-informational?style=flat-square)
+![Version: 11.0.107](https://img.shields.io/badge/Version-11.0.107-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 11.0.107](https://img.shields.io/badge/AppVersion-11.0.107-informational?style=flat-square)
 
 Mprove Helm Chart
 
@@ -82,7 +82,7 @@ Mprove Helm Chart
 | backendCommon.envs.BACKEND_PREV_AES_KEY_TAG | id for previous AES key | `0` | increment when you rotate AES KEY |
 | backendCommon.envs.BACKEND_TOTAL_DISK_SHARDS | int | `1` |  |
 | backendCommon.envs.BACKEND_RPC_DISK_TIMEOUT_MS | int | `60000` |  |
-| backendCommon.envs.BACKEND_RPC_BLOCKML_TIMEOUT_MS | int | `30000` |  |
+| backendCommon.envs.BACKEND_RPC_BLOCKML_TIMEOUT_MS | int | `60000` |  |
 | backendCommon.envs.BACKEND_ALLOW_TEST_ROUTES | string | `"FALSE"` |  |
 | backendCommon.envs.BACKEND_ALLOW_USERS_TO_CREATE_ORGANIZATIONS | string | `"FALSE"` |  |
 | backendCommon.envs.BACKEND_CALC_POSTGRES_HOST | string | `"calc-postgres"` |  |
@@ -92,6 +92,7 @@ Mprove Helm Chart
 | backendCommon.envs.BACKEND_EMAIL_TRANSPORT | string | `"SMTP"` |  |
 | backendCommon.envs.BACKEND_ENV | string | `"PROD"` |  |
 | backendCommon.envs.BACKEND_HOST_URL | string | `"https://real-host.example.com"` | *Replace* |
+| backendCommon.envs.BACKEND_SANDBOX_MPROVE_CLI_HOST | string | `"https://real-host.example.com"` |  |
 | backendCommon.envs.BACKEND_IS_ENCRYPT_DB | string | `"TRUE"` |  |
 | backendCommon.envs.BACKEND_IS_ENCRYPT_METADATA | string | `"FALSE"` |  |
 | backendCommon.envs.BACKEND_IS_POSTGRES_TLS | string | `"FALSE"` |  |
@@ -100,6 +101,7 @@ Mprove Helm Chart
 | backendCommon.envs.BACKEND_LOG_IS_JSON | string | `"TRUE"` |  |
 | backendCommon.envs.BACKEND_LOG_RESPONSE_ERROR | string | `"TRUE"` |  |
 | backendCommon.envs.BACKEND_LOG_RESPONSE_OK | string | `"FALSE"` |  |
+| backendCommon.envs.BACKEND_IS_TRACE_DRIZZLE_ENABLED | string | `"FALSE"` |  |
 | backendCommon.envs.BACKEND_LOG_THROTTLE_TRACKER | string | `"FALSE"` |  |
 | backendCommon.envs.BACKEND_MPROVE_ADMIN_EMAIL | string | `"real-email@example.com"` | *Replace* |
 | backendCommon.envs.BACKEND_MPROVE_ADMIN_INITIAL_PASSWORD | string | `"userpass"` | *Replace* |
@@ -116,6 +118,7 @@ Mprove Helm Chart
 | backendCommon.envs.BACKEND_SMTP_PORT | int | `465` |  |
 | backendCommon.envs.BACKEND_SMTP_SECURE | string | `"TRUE"` |  |
 | backendCommon.envs.BACKEND_SPECIAL_KEY | string | `"specialkey"` | *Replace* |
+| backendCommon.envs.BACKEND_E2B_PUBLIC_TEMPLATE | string | `"i3i4yvua9kl55j8opzpi"` |  |
 | backendCommon.envs.BACKEND_STORE_API_BLOCK_HOSTS | string | `""` | hostnames that resolve to internal IP are blocked by default, you can specify more hosts to block - separated by comma "example1.com, example2.com" |
 | backendCommon.envs.BACKEND_STORE_API_ALLOW_HOSTS | string | `""` | hostnames that resolve to internal IP are blocked by default, you can specify hosts to unblock - separated by comma "example3.com, examplelocalservice" |
 | backendCommon.envs.BACKEND_THROTTLE_PRIVATE_ROUTES_BY_USER_ID | string | `"TRUE"` |  |
