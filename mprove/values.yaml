@@ -176,7 +176,7 @@ backendCommon:
     BACKEND_SMTP_SECURE: "TRUE"
     # -- *Replace*
     BACKEND_SPECIAL_KEY: specialkey
-    BACKEND_E2B_PUBLIC_TEMPLATE: xiglwsxsbsadxnzshqcz
+    BACKEND_E2B_PUBLIC_TEMPLATE: zqfzjgsao1g08d90h3x5
     # -- hostnames that resolve to internal IP are blocked by default, you can specify more hosts to block - separated by comma "example1.com, example2.com"
     BACKEND_STORE_API_BLOCK_HOSTS: ""
     # -- hostnames that resolve to internal IP are blocked by default, you can specify hosts to unblock - separated by comma "example3.com, examplelocalservice"
