@@ -176,7 +176,7 @@ backendCommon:
     BACKEND_SMTP_SECURE: "TRUE"
     # -- *Replace*
     BACKEND_SPECIAL_KEY: specialkey
-    BACKEND_E2B_PUBLIC_TEMPLATE: oyieiih07pjosih7kdvh
+    BACKEND_E2B_PUBLIC_TEMPLATE: mxukuxsdp8c4pcsxb5x9
     # -- hostnames that resolve to internal IP are blocked by default, you can specify more hosts to block - separated by comma "example1.com, example2.com"
     BACKEND_STORE_API_BLOCK_HOSTS: ""
     # -- hostnames that resolve to internal IP are blocked by default, you can specify hosts to unblock - separated by comma "example3.com, examplelocalservice"
@@ -258,6 +258,7 @@ disk:
     DISK_LOG_RESPONSE_ERROR: "FALSE"
     DISK_LOG_RESPONSE_OK: "FALSE"
     DISK_ORGANIZATIONS_PATH: /root/mprove_data/organizations
+    DISK_IS_CHECK_SYMLINKS_ON_STARTUP: "FALSE"
     NODE_ENV: production
 
 front:
