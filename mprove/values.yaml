@@ -136,6 +136,7 @@ backendCommon:
     # BACKEND_DEMO_PROJECT_PRIVATE_KEY_ENCRYPTED_PATH: secrets/demo-project-remote-private-key-encrypted.pem
     # BACKEND_DEMO_PROJECT_PUBLIC_KEY_PATH: secrets/demo-project-remote-public-key.pem
     # BACKEND_DEMO_PROJECT_REMOTE_TYPE: GitClone
+    BACKEND_DWH_COLUMN_UNIQUE_VALUES_CACHE_LIMIT: 5000
     BACKEND_EMAIL_TRANSPORT: SMTP
     BACKEND_ENV: PROD
     # -- *Replace*

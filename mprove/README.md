@@ -1,6 +1,6 @@
 # mprove
 
-![Version: 12.0.11](https://img.shields.io/badge/Version-12.0.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 12.0.11](https://img.shields.io/badge/AppVersion-12.0.11-informational?style=flat-square)
+![Version: 12.0.14](https://img.shields.io/badge/Version-12.0.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 12.0.14](https://img.shields.io/badge/AppVersion-12.0.14-informational?style=flat-square)
 
 Mprove Helm Chart
 
@@ -89,6 +89,7 @@ Mprove Helm Chart
 | backendCommon.envs.BACKEND_CALC_POSTGRES_PORT | int | `5437` |  |
 | backendCommon.envs.BACKEND_CALC_POSTGRES_USERNAME | string | `"calc_user"` |  |
 | backendCommon.envs.BACKEND_CALC_POSTGRES_PASSWORD | string | `"calcPass"` | *Replace* |
+| backendCommon.envs.BACKEND_DWH_COLUMN_UNIQUE_VALUES_CACHE_LIMIT | int | `5000` |  |
 | backendCommon.envs.BACKEND_EMAIL_TRANSPORT | string | `"SMTP"` |  |
 | backendCommon.envs.BACKEND_ENV | string | `"PROD"` |  |
 | backendCommon.envs.BACKEND_HOST_URL | string | `"https://real-host.example.com"` | *Replace* |
