@@ -11,6 +11,3 @@ docs:
   envsSecretName: secret-docs
   envs:
     NODE_ENV: production
-    DOCS_ORIGIN: https://docs.mprove.io
-    OPENAPI_SERVER_URL: http://app.mprove.io
-    OPENAPI_SCHEMA_URL: http://app.mprove.io/api/openapi.json
