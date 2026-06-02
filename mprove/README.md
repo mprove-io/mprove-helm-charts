@@ -1,6 +1,6 @@
 # mprove
 
-![Version: 12.0.19](https://img.shields.io/badge/Version-12.0.19-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 12.0.19](https://img.shields.io/badge/AppVersion-12.0.19-informational?style=flat-square)
+![Version: 12.0.20](https://img.shields.io/badge/Version-12.0.20-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 12.0.20](https://img.shields.io/badge/AppVersion-12.0.20-informational?style=flat-square)
 
 Mprove Helm Chart
 
@@ -119,7 +119,7 @@ Mprove Helm Chart
 | backendCommon.envs.BACKEND_SMTP_PORT | int | `465` |  |
 | backendCommon.envs.BACKEND_SMTP_SECURE | string | `"TRUE"` |  |
 | backendCommon.envs.BACKEND_SPECIAL_KEY | string | `"specialkey"` | *Replace* |
-| backendCommon.envs.BACKEND_E2B_PUBLIC_TEMPLATE | string | `"b9v3sb39gg5b63rft57f"` |  |
+| backendCommon.envs.BACKEND_E2B_PUBLIC_TEMPLATE | string | `"it0has4x00dbynasl9zl"` |  |
 | backendCommon.envs.BACKEND_STORE_API_BLOCK_HOSTS | string | `""` | hostnames that resolve to internal IP are blocked by default, you can specify more hosts to block - separated by comma "example1.com, example2.com" |
 | backendCommon.envs.BACKEND_STORE_API_ALLOW_HOSTS | string | `""` | hostnames that resolve to internal IP are blocked by default, you can specify hosts to unblock - separated by comma "example3.com, examplelocalservice" |
 | backendCommon.envs.BACKEND_THROTTLE_PRIVATE_ROUTES_BY_USER_ID | string | `"TRUE"` |  |
