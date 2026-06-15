@@ -2,5 +2,5 @@ apiVersion: v2
 name: mprove-docs
 description: Mprove Docs Helm Chart
 type: application
-version: 12.0.25
-appVersion: "12.0.25"  
+version: 12.0.26
+appVersion: "12.0.26"  
